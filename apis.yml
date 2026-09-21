@@ -1,0 +1,64 @@
+name: ServGhost Agent API
+description: >-
+  Agent-native offshore hosting provider offering Linux VPS, dedicated servers, Windows RDP, GPU AI compute, and
+  anonymous domain registration across 7 jurisdictions. No-KYC, no-logs, crypto-only with instant automated deployment
+  designed for end-to-end purchase by AI agents. Exposes a REST API (OpenAPI 3.1), a hosted MCP server, llms.txt, an
+  agent.json discovery file, and x402 USDC payment support.
+url: https://raw.githubusercontent.com/api-evangelist/servghost-agent-api/refs/heads/main/apis.yml
+created: '2026-09-21'
+modified: '2026-09-21'
+specificationVersion: '0.21'
+tags:
+  - cloud infrastructure
+  - VPS hosting
+  - dedicated servers
+  - GPU compute
+  - AI compute
+  - domain registration
+  - privacy
+  - anonymous hosting
+  - offshore hosting
+  - crypto payments
+  - agent-native
+  - MCP
+  - x402
+apis:
+  - name: ServGhost Agent API
+    description: >-
+      REST API for provisioning VPS, dedicated servers, Windows RDP, GPU AI hosting, and anonymous domains. Bearer-token
+      auth (auto-issued on first topup/order), balance funded via crypto-only top-ups, x402 USDC payment support, and a
+      dry_run test mode. Ships an OpenAPI 3.1 contract, a hosted MCP server with 13 tools, llms.txt, and a
+      /.well-known/agent.json discovery file.
+    humanURL: https://servghost.com/agents
+    baseURL: https://servghost.com
+    tags:
+      - cloud infrastructure
+      - VPS hosting
+      - dedicated servers
+      - GPU compute
+      - AI compute
+      - domain registration
+      - privacy
+      - anonymous hosting
+      - offshore hosting
+      - crypto payments
+      - agent-native
+      - MCP
+      - x402
+    properties:
+      - type: OpenAPI
+        url: https://servghost.com/openapi.json
+      - type: MCPServer
+        url: https://servghost.com/mcp
+      - type: LLMsTxt
+        url: https://servghost.com/llms.txt
+      - type: Documentation
+        url: https://servghost.com/agents
+maintainers:
+  - FN: ServGhost Agent API
+    url: https://servghost.com
+generated:
+  by: apis.io/add
+  model: claude-opus-4-8
+  confidence: 95
+  at: '2026-09-21T13:45:14.800Z'
