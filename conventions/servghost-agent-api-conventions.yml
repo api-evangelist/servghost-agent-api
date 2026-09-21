@@ -1,0 +1,47 @@
+generated: '2026-09-21'
+method: derived
+source:
+  - openapi/servghost-agent-api-openapi.json
+  - https://servghost.com/.well-known/agent.json
+  - https://servghost.com/agents
+authentication:
+  style: http bearer
+  detail: >-
+    Bearer token, format AAAA-BBBB-CCCC-DDDD, auto-issued on the first POST /api/v1/topup or /api/v1/orders
+    (or explicitly via POST /api/v1/account). No KYC, no email. MCP mutating tools pass the token as an
+    account_token argument.
+idempotency:
+  coverage: none
+  detail: >-
+    No Idempotency-Key header or idempotency mechanism is declared anywhere in the OpenAPI 3.1 contract or
+    the docs. Order creation is rate-limited (6/min/IP) but not replay-protected; a retried POST /api/v1/orders
+    with balance available would deploy another server.
+reversibility:
+  present: false
+  detail: >-
+    No user-initiated reversal operation (cancel/refund/void) for a purchase is documented. server_action
+    supports reboot/shutdown/start/reinstall (operational, not a purchase reversal). The only refund is
+    automatic: POST /api/v1/orders returns 500 "Server INSERT failed (balance refunded)" when provisioning
+    fails. No refund window is stated. Crypto-only, no-KYC model implies no chargeback path.
+  window: null
+pagination:
+  style: none
+  detail: >-
+    No pagination parameters (page/cursor/offset/limit) are declared. List endpoints (catalog, locations,
+    topup/bonus) return full result sets in a single response.
+versioning:
+  style: uri-path
+  detail: URI-path versioning under /api/v1/. Contract info.version is 2.0.0. A legacy pre-v2.0 crypto-direct order poll remains at GET /api/v1/orders/{id}.
+error_envelope:
+  style: custom-json
+  detail: >-
+    Errors use a components.schemas.Error object. Notable domain errors: 402 insufficient_balance carries a
+    topup_required block with a suggested_usd value; 402 (x402) on POST /api/v1/topup carries an x402
+    'accepts' array (scheme exact, USDC on Base). 400 for bad input, 429 rate limited, 503 crypto checkout
+    unavailable.
+rate_limit_signaling:
+  detail: >-
+    HTTP 429 "Rate limited" on POST /api/v1/topup and POST /api/v1/orders. Limits are per IP (6 orders/min,
+    1 account/min) published in /.well-known/agent.json. No RateLimit-* or Retry-After response headers are documented.
+request_tracing:
+  detail: No request-id / correlation-id tracing header is documented.

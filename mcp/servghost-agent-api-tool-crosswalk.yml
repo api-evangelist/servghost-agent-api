@@ -1,0 +1,96 @@
+generated: '2026-09-21'
+method: derived
+source:
+  - https://servghost.com/mcp
+  - openapi/servghost-agent-api-openapi.json
+note: >-
+  Bindings map the 11 live MCP tools (probed via tools/list 2026-09-21) to the REST operations in the
+  OpenAPI 3.1 contract. The contract declares no operationIds, so REST operations are identified by
+  "METHOD path". Confidence is high where the tool name, description and parameters line up 1:1 with a
+  single operation.
+crosswalk:
+  - tool: list_plans
+    category: catalog
+    rest:
+      - GET /api/v1/catalog
+    binding: direct
+    confidence: high
+  - tool: list_locations
+    category: catalog
+    rest:
+      - GET /api/v1/locations
+    binding: direct
+    confidence: high
+  - tool: quote
+    category: pricing
+    rest:
+      - POST /api/v1/quote
+    binding: direct
+    confidence: high
+  - tool: topup_bonus
+    category: billing
+    rest:
+      - GET /api/v1/topup/bonus
+    binding: direct
+    confidence: high
+  - tool: topup_create
+    category: billing
+    rest:
+      - POST /api/v1/topup
+    binding: direct
+    confidence: high
+  - tool: payment_status
+    category: billing
+    rest:
+      - GET /api/v1/topup/{id}
+      - GET /api/v1/orders/{id}
+    binding: direct
+    confidence: high
+    note: Polls a top-up by id; also covers the legacy pre-v2.0 crypto-direct order poll.
+  - tool: account_balance
+    category: account
+    rest:
+      - GET /api/v1/account
+    binding: direct
+    confidence: high
+  - tool: create_order
+    category: provisioning
+    rest:
+      - POST /api/v1/orders
+    binding: direct
+    confidence: high
+  - tool: server_credentials
+    category: provisioning
+    rest:
+      - GET /api/v1/servers/{id}
+    binding: direct
+    confidence: high
+  - tool: server_action
+    category: provisioning
+    rest:
+      - POST /api/v1/servers/{id}/action
+    binding: direct
+    confidence: high
+  - tool: agent_help
+    category: discovery
+    rest:
+      - GET /api/v1/
+    binding: semantic
+    confidence: medium
+    note: Returns the canonical purchase recipe; the API root operation carries the same recipe/capabilities payload.
+mcp_only: []
+rest_only:
+  - rest: POST /api/v1/account
+    reason: Explicit account creation has no dedicated MCP tool; the bearer token is auto-issued on first topup/order.
+  - rest: GET /api/v1/domains/check
+    reason: Anonymous domain availability/pricing lookup is exposed only over REST, not as an MCP tool.
+surfaces:
+  openapi: openapi/servghost-agent-api-openapi.json
+  mcp: https://servghost.com/mcp
+  graphql: null
+coverage:
+  mcp_tools: 11
+  rest_operations: 14
+  tools_bound: 11
+  rest_only: 2
+  mcp_only: 0

@@ -1,0 +1,260 @@
+# ServGhost — Offshore Server Hosting
+
+> ServGhost provides offshore VPS and dedicated server hosting in 7 offshore jurisdictions. No KYC, no logs, cryptocurrency-only payments, instant automated deployment.
+
+> Last updated: 2026-09-21. Canonical site: https://servghost.com. Payment in 8 cryptocurrencies including Monero (XMR).
+
+## Services
+
+- **Offshore VPS Hosting**: KVM virtual servers with NVMe SSD, unlimited bandwidth, DDoS protection, full root access. Prices from $7.50/mo.
+- **Offshore Dedicated Servers**: Bare-metal hardware with IPMI/KVM access, custom ISO support, LUKS encryption. Prices from $48.50/mo.
+- **Offshore Windows RDP**: Full administrator Windows Server 2022/2025 or Windows 11 Pro, NVMe SSD, desktop-grade Ryzen 9 / Core i9 hosts, 60-second deploy, capped bandwidth (2-20 TB/mo). 4 jurisdictions (Netherlands, Romania, Moldova, Russia). Prices from $11.00/mo.
+- **Offshore GPU AI Hosting**: NVIDIA RTX 4090 / RTX 5090 / H100 SXM5 GPU servers for AI training, inference, image and video generation. CUDA 12 + cuDNN preinstalled. Threadripper / Ryzen 9 hosts. NVMe SSD, DDR5. Unlimited bandwidth. 4 jurisdictions (Iceland, Netherlands, Romania, Moldova). Prices from $122.00/mo.
+- **Anonymous Domain Names**: Register a domain with zero KYC, free WHOIS privacy on every TLD that supports it, paid from your ServGhost account balance (top up once with 8 cryptos). 26 TLDs supported including .com $4.99/yr (mega promo, -69% vs Namecheap renewal), .net $12.99, .org $11.99, .io $24.99 (-47%), .me $14.99, .xyz $9.99, .ai $84.99 (-23%), .app/.dev $13.99, .fr $8.99, .de $7.99, plus 16 more. Same renewal price as first year — no promo bait. Live registration in under 5 seconds (synchronous registry call from balance).
+- **Blockchain Node Hosting**: matched VPS/dedicated configs to run full nodes for Bitcoin, Lightning, Ethereum, Monero, Solana, Litecoin and TRON. Realistic 2026 chain sizes, unlimited bandwidth, NVMe, Tor-friendly. From $17.00/mo (pruned LTC/XMR) to $293.50/mo (Solana validator / ETH archive on DS-4). Hub: https://servghost.com/node-hosting
+- **Censorship-Resistant Proxy Hosting**: run your own anti-DPI proxy on a fresh, un-blacklisted offshore IP to bypass the Great Firewall / Iran / Russia filtering. Per-protocol pages: VLESS+REALITY (Xray/3x-ui, undetectable), Shadowsocks-2022 (Outline/sing-box), Hysteria2 (QUIC, fast on throttled networks), V2Ray/VMess (WebSocket+TLS behind Cloudflare CDN), Telegram MTProto (mtg, fake-TLS). Light VPS workload, from $7.50/mo, no KYC, crypto-only. Hub: https://servghost.com/censorship-resistant-hosting
+
+## Locations (7 Jurisdictions)
+
+- **Iceland**: Free speech haven (IMMI source protection), no mandatory data-retention law for hosting providers, outside EU enforcement institutions, renewable energy datacenters.
+- **Panama**: No data retention laws, no MLAT with western countries, strong banking secrecy.
+- **Moldova**: Light regulation, budget-friendly, minimal international judicial cooperation.
+- **Romania**: Constitutional Court struck down data retention laws, excellent EU connectivity.
+- **Switzerland**: Federal Data Protection Act, political neutrality, top-tier infrastructure.
+- **Netherlands**: AMS-IX world-class peering, historically tolerant hosting policies.
+- **Russia**: Outside western legal jurisdiction, immune to DMCA/EU/US court orders.
+
+## Key Features
+
+- Zero KYC — no name, email, phone, or ID required
+- Cryptocurrency only — 8 coins: BTC, XMR (Monero), ETH, USDT (ERC-20/TRC-20), LTC, TRX, SOL
+- No logs — zero traffic, connection, or DNS logging
+- DMCA ignored — not subject to US copyright law
+- Instant deployment — VPS live in under 5 minutes
+- 99.9% uptime SLA with service credits
+- Full root access + VNC console
+- NVMe SSD storage on all plans
+- Unlimited bandwidth on all plans
+- DDoS protection (L3/L4) included
+
+## Pricing
+
+All prices below are per month.
+
+### VPS (per month)
+| Plan | CPU | RAM | Storage | Price Range |
+|------|-----|-----|---------|-------------|
+| VPS-S | 2 vCPU | 4 GB DDR4 | 60 GB NVMe | $7.50 - $11.00 |
+| VPS-M | 4 vCPU | 8 GB DDR4 | 120 GB NVMe | $12.00 - $17.00 |
+| VPS-L | 6 vCPU | 16 GB DDR4 | 200 GB NVMe | $17.00 - $24.50 |
+| VPS-XL | 8 vCPU | 32 GB DDR5 | 400 GB NVMe | $24.50 - $34.50 |
+| VPS-XXL | 12 vCPU | 48 GB DDR5 | 600 GB NVMe | $34.50 - $46.50 |
+| VPS-PRO | 16 vCPU | 64 GB DDR5 | 1 TB NVMe | $44.00 - $58.50 |
+
+### Dedicated Servers (per month)
+| Plan | CPU | RAM | Storage | Price Range |
+|------|-----|-----|---------|-------------|
+| DS-1 | Xeon E-2388G 8C/16T | 64 GB DDR4 ECC | 2x 1TB NVMe | $48.50 - $68.00 |
+| DS-2 | Ryzen 9 7950X 16C/32T | 128 GB DDR5 | 2x 2TB NVMe | $87.50 - $122.00 |
+| DS-3 | EPYC 9354 32C/64T | 128 GB DDR5 ECC | 4x 2TB NVMe | $146.50 - $195.50 |
+| DS-4 | 2× EPYC 9354 64C/128T | 256 GB DDR5 ECC | 4x 4TB NVMe | $220.00 - $293.50 |
+
+### Windows RDP (per month, admin RDP only, available in NL/RO/MD/RU)
+| Plan | CPU | RAM | Storage | Bandwidth | Price Range |
+|------|-----|-----|---------|-----------|-------------|
+| RDP-S | 2 vCPU | 4 GB DDR4 | 60 GB NVMe | 2 TB/mo | $11.00 - $12.00 |
+| RDP-M | 4 vCPU | 8 GB DDR4 | 120 GB NVMe | 5 TB/mo | $16.00 - $18.50 |
+| RDP-L | 6 vCPU | 16 GB DDR4 | 200 GB NVMe | 10 TB/mo | $22.00 - $26.00 |
+| RDP-XL | 8 vCPU | 32 GB DDR5 | 400 GB NVMe | 20 TB/mo | $32.00 - $36.50 |
+
+OS choices: Windows Server 2022 Standard (default), Windows Server 2025 Standard, Windows Server 2019 Standard, Windows 11 Pro. Full Administrator on every plan.
+
+### GPU AI Hosting (per month, available in IS/NL/RO/MD, unlimited bandwidth)
+| Plan | GPU | VRAM | CPU | RAM | Storage | Price Range |
+|------|-----|------|-----|-----|---------|-------------|
+| GPU-S | 1× NVIDIA RTX 4090 | 24 GB GDDR6X | 12 vCPU | 64 GB DDR5 | 1 TB NVMe | $122.00 - $146.50 |
+| GPU-M | 1× NVIDIA RTX 5090 | 32 GB GDDR7 | 16 vCPU | 96 GB DDR5 | 1.5 TB NVMe | $195.50 - $234.50 |
+| GPU-L | 1× NVIDIA H100 SXM5 | 80 GB HBM3 | 24 vCPU | 192 GB DDR5 | 2 TB NVMe | $832.50 - $906.00 |
+| GPU-XL | 2× NVIDIA H100 SXM5 | 160 GB HBM3 | 32 vCPU | 384 GB DDR5 | 4 TB NVMe | $1,567.50 - $1,714.50 |
+
+OS choices: Ubuntu 22.04 + CUDA 12.4 (default, recommended), Ubuntu 24.04 + CUDA 12.6, Debian 12 + CUDA 12.4, or Custom ISO (advanced — AI Configuration is disabled on custom ISO since recipes can't install on a base we don't control). Full SSH + JupyterLab access on every plan. Iceland is the lowest-carbon GPU compute on the list (100% geothermal/hydro). Russia excluded due to NVIDIA export sanctions.
+
+**Deploy-time AI configuration (GPU only):**
+- `ai_stacks` — pre-install one or more from: vLLM, Ollama+Open WebUI, text-generation-webui, HuggingFace TGI, Axolotl, Unsloth, LLaMA-Factory, ComfyUI+FLUX, Automatic1111, Forge, Kohya SS LoRA, ComfyUI Video (Wan/CogVideoX), Whisper Large v3 server, JupyterLab (always on), code-server.
+- `pretrained_models` — pre-download (saves 15-60 min): Llama 3.3 8B/70B, Qwen 3 32B, DeepSeek-R1 Distill 32B, Mistral Small 3 24B, Gemma 3 27B, Phi-4 14B, FLUX.1-dev, FLUX.1-schnell, Stable Diffusion 3.5 Large, SDXL 1.0, Wan-2.1 T2V 14B, CogVideoX-5B, Whisper Large v3, Bark.
+- `hf_token` — HuggingFace token; required for gated models (Llama, Mistral, FLUX-dev, SD 3.5). Encrypted at rest, used once at provision.
+- `ssh_public_key` — paste your OpenSSH public key for password-less login at first boot.
+- `public_endpoint=true` — auto-provision Let's Encrypt + nginx reverse proxy on port 443 for the deployed stack (vLLM /v1/ OpenAI-compat, Gradio share replacement, Jupyter remote).
+- `auto_shutdown_hours` — 0 / 6 / 12 / 24 / 48 / 168. Server self-destructs after the timer to bound cost on one-off jobs.
+
+## Payment Methods
+
+8 cryptocurrency coins accepted natively: Bitcoin (BTC), Monero (XMR), Ethereum (ETH), Tether USDT (ERC-20, TRC-20), Litecoin (LTC), TRON (TRX), Solana (SOL). No fiat payments accepted.
+
+## Contact
+
+- Contact form: https://servghost.com/contact
+
+## For AI Agents — Buy a Server Programmatically
+
+ServGhost is fully agent-purchasable. AI agents (Claude, Claude Code, ChatGPT, Cursor, Continue, OpenClaw, custom Python scripts, etc.) can discover, price, top up balance, deploy servers and receive credentials end-to-end with zero human interaction.
+
+**Payment model is BALANCE-ONLY.** No direct crypto-to-server purchases. Two-step flow:
+  1. Top up USD credit with crypto via `POST /api/v1/topup` (min $30, max $2000 per top-up, with automatic bonus credit — see below).
+  2. Deploy servers from the credit via `POST /api/v1/orders` (debits balance, server is active immediately).
+
+If `/api/v1/orders` is called with insufficient balance it returns `402 insufficient_balance` with a `topup_required` block including a `suggested_usd` value that covers the deficit AND clears the $30 minimum — pass it straight back to `/api/v1/topup` and retry.
+
+**Top-up bonus tiers** (free credit applied on confirmation, linear interpolation between anchors, no bonus below $100):
+  $100 → +$25     |    $1000 → +$500
+  $250 → +$75     |    $1500 → +$1000
+  $500 → +$200    |    $2000 → +$2000
+Full tier table: `GET https://servghost.com/api/v1/topup/bonus` (no auth).
+
+Two integration paths, all on the same domain (no subdomain):
+
+1. **MCP** (Claude Desktop / Code, Cursor, Continue, Cline) — add this URL to your MCP config:
+   `https://servghost.com/mcp`
+   Tools exposed: `list_plans`, `list_locations`, `quote`, `topup_bonus`, `topup_create`, `payment_status`, `account_balance`, `create_order`, `server_credentials`, `server_action`, `agent_help`.
+
+2. **REST** — OpenAPI 3.1 spec at `https://servghost.com/openapi.json`. Bearer auth (auto-issued on first `/topup` or `/orders` POST, no signup needed).
+   - `GET  /api/v1/topup/bonus`              — bonus tier table
+   - `POST /api/v1/topup    {amount, crypto}` — create deposit invoice
+   - `GET  /api/v1/topup/{id}`               — poll until status=confirmed
+   - `POST /api/v1/orders   {type, plan, location, os, billing}` — balance-debit deploy
+   - `GET  /api/v1/servers/{id}`             — credentials (active immediately)
+
+Discovery file (machine-readable capabilities): `https://servghost.com/.well-known/agent.json`
+Agent docs (humans + scrapers): `https://servghost.com/agents`
+Test mode (no real crypto, no real provisioning): add `?dry_run=1` to any `/api/v1/*` URL or pass `dry_run: true` in the body.
+
+### Domain registration (no auth)
+
+Live availability + price for any SLD across 26 TLDs in one call:
+
+```
+GET https://servghost.com/api/v1/domains/check?q=mybrand
+```
+
+Response (JSON): `{ok, query, results:[{domain, tld, available, premium, price_usd, market_usd, discount_pct, badge}], pricelist_loaded, cache}`. Cached 1h in Redis. Pre-populated with our pricing catalog so prices stay stable across requests.
+
+No KYC. No email. No phone. No captcha. Crypto-only. Account token (`AAAA-BBBB-CCCC-DDDD`) is auto-issued the first time you call `/orders` and is the only thing required to manage the server afterwards.
+
+## Domain TLDs (renewal prices, what you actually pay every year)
+
+All domains are paid from the customer's ServGhost account balance (which is topped up via crypto). Free WHOIS privacy is enabled by default. Registration is synchronous — the domain is live in under 5 seconds.
+
+| TLD | Our price (renew) | Namecheap renew | Discount | Notes |
+|-----|--------------------|-----------------|----------|-------|
+| .com | $4.99/yr | $15.98 | -69% | Mega promo (loss leader) |
+| .net | $12.99/yr | $17.98 | -28% | |
+| .org | $11.99/yr | $15.98 | -25% | |
+| .io | $24.99/yr | $46.98 | -47% | HOT loss leader for tech/startup brands |
+| .me | $14.99/yr | $20.98 | -29% | |
+| .co | $24.99/yr | $32.98 | -24% | |
+| .xyz | $9.99/yr | $14.99 | -33% | |
+| .app | $13.99/yr | $19.98 | -30% | HTTPS-enforced |
+| .dev | $13.99/yr | $19.98 | -30% | HTTPS-enforced |
+| .ai | $84.99/yr | $109.98 | -23% | HOT for AI/ML brands |
+| .fr | $8.99/yr | $11.98 | -25% | |
+| .de | $7.99/yr | $11.98 | -33% | |
+| .is | $69.99/yr | $84.98 | -18% | Iceland — free-speech haven |
+| .li | $14.99/yr | $25.98 | -42% | Liechtenstein |
+| .ch | $9.99/yr | $14.98 | -33% | Switzerland |
+| .nl | $9.99/yr | $13.98 | -29% | Netherlands |
+| .uk | $8.99/yr | $11.98 | -25% | |
+| .info | $17.99/yr | $24.98 | -28% | |
+| .biz | $17.99/yr | $24.98 | -28% | |
+| .tech | $9.99/yr | $54.98 | -82% | Best deal in the catalog |
+| .pro | $17.99/yr | $24.98 | -28% | |
+| .site | $14.99/yr | $32.98 | -55% | |
+| .online | $19.99/yr | $39.98 | -50% | |
+| .pw | $11.99/yr | $14.98 | -20% | Palau |
+| .cc | $19.99/yr | $32.98 | -39% | Cocos Islands |
+| .tv | $24.99/yr | $39.98 | -38% | Tuvalu — video / streaming |
+
+TLDs we deliberately do NOT offer (registry-level KYC required): .eu .es .it .ca .au .br .in.
+
+## Editorial topic pages (head-term clusters)
+
+- No-KYC hosting overview: https://servghost.com/no-kyc-hosting
+- DMCA-ignored hosting: https://servghost.com/dmca-ignored-hosting
+- Bitcoin / crypto hosting: https://servghost.com/bitcoin-hosting
+- Offshore hosting: https://servghost.com/offshore-hosting
+- No-KYC Windows RDP: https://servghost.com/no-kyc-rdp
+- No-KYC GPU hosting: https://servghost.com/no-kyc-gpu
+- Monero (XMR) hosting (native, no gateway): https://servghost.com/monero-hosting
+- Uncensored AI hosting (self-host LLM): https://servghost.com/uncensored-ai-hosting
+- Anonymous hosting (anonymous VPS & dedicated): https://servghost.com/anonymous-hosting
+- Crypto GPU hosting (pay H100/RTX in BTC/XMR): https://servghost.com/crypto-gpu-hosting
+- AI agent hosting (agent-purchasable servers): https://servghost.com/ai-agent-hosting
+
+## Use-case pages (workload-specific)
+
+- Hub (all 16): https://servghost.com/use-cases
+- Tor relays/bridges: https://servghost.com/use-cases/tor-hosting
+- Self-hosted VPN: https://servghost.com/use-cases/vpn-hosting
+- Private mail server: https://servghost.com/use-cases/mail-server-hosting
+- Game servers: https://servghost.com/use-cases/game-server-hosting
+- Crypto nodes: https://servghost.com/use-cases/crypto-node-hosting
+- Seedbox: https://servghost.com/use-cases/seedbox-hosting
+- Scraping proxies: https://servghost.com/use-cases/scraping-proxy-hosting
+- Matrix/XMPP chat: https://servghost.com/use-cases/matrix-xmpp-hosting
+- I2P: https://servghost.com/use-cases/i2p-hosting
+- High-traffic sites: https://servghost.com/use-cases/high-traffic-hosting
+- Trading VPS: https://servghost.com/use-cases/trading-vps-hosting
+- Nextcloud: https://servghost.com/use-cases/nextcloud-hosting
+- Password manager: https://servghost.com/use-cases/password-manager-hosting
+- Git hosting: https://servghost.com/use-cases/git-hosting
+- Media server: https://servghost.com/use-cases/media-server-hosting
+- Backup server: https://servghost.com/use-cases/backup-server-hosting
+
+## Long-form guides (E-E-A-T)
+
+- Choosing an offshore jurisdiction: https://servghost.com/guides/choosing-an-offshore-jurisdiction
+- VPS vs dedicated for privacy: https://servghost.com/guides/vps-vs-dedicated-for-privacy
+- Self-hosted VPN — WireGuard vs OpenVPN: https://servghost.com/guides/self-hosted-vpn-wireguard-vs-openvpn
+- Crypto payments — Monero vs Bitcoin vs USDT: https://servghost.com/guides/crypto-payments-monero-vs-bitcoin-vs-usdt
+- RTX 4090 vs H100 SXM5 for AI inference: https://servghost.com/guides/rtx-4090-vs-h100-for-ai-inference
+- Offshore Windows RDP for forex / MT4 / MT5 trading: https://servghost.com/guides/offshore-windows-rdp-for-forex-trading
+- DMCA-ignored hosting explained — jurisdictions, workloads, traps: https://servghost.com/guides/dmca-ignored-hosting-explained
+- Anonymous domain registration with crypto — WHOIS privacy, TLD choice, payment privacy: https://servghost.com/guides/anonymous-domain-registration-with-crypto
+- Bypass DPI censorship with your own VPS — how DPI fingerprints a VPN, the five 2026 protocols, VLESS+REALITY setup: https://servghost.com/guides/bypass-dpi-censorship-with-your-own-vps
+- Full-disk encryption on a VPS — what encryption at rest really protects, LUKS2 data volumes, dropbear remote unlock, key custody: https://servghost.com/guides/full-disk-encryption-on-a-vps
+- Hiding your origin server IP — L3/L4 vs L7 DDoS, what a CDN hides and the abuse desk it adds, the six ways an origin leaks, self-audit: https://servghost.com/guides/hiding-your-origin-server-ip
+- VPS backup strategy — why a snapshot is not a backup, 3-2-1 across two jurisdictions, append-only and pull models, restic vs BorgBackup, restore drills: https://servghost.com/guides/vps-backup-strategy
+- Self-hosting a Matrix server — what federation replicates to every peer, what E2EE leaves in the clear, Synapse vs Dendrite vs Conduit, the irreversible server_name, media retention: https://servghost.com/guides/self-host-a-matrix-server
+- Migrate a website to offshore hosting without downtime — why the TTL must drop days ahead, running both servers in parallel, the two-pass data copy, testing under the real hostname before DNS moves, and what the move permanently records in passive DNS, Certificate Transparency and WHOIS history: https://servghost.com/guides/migrate-website-to-offshore-hosting
+- Self-host a crypto payment gateway — what a hosted payment processor actually costs you beyond the fee, BTCPay Server as a stack, sizing the disk for a pruned vs full Bitcoin node, giving the server an xpub so it holds no private keys, adding Lightning and Monero, verifying webhooks before fulfilment, and where KYC reappears at the cash-out: https://servghost.com/guides/self-host-a-crypto-payment-gateway
+- Surviving a DDoS attack on your VPS — the line between the volumetric floods a host scrubs upstream and the layer-7 request floods it cannot see, classifying an attack from the server in four commands, the caching and rate limits that actually hold, the real-IP mistake that voids every limit behind a proxy, the ceilings that decide whether you fall over, and choosing a plan so an attack is not also an invoice: https://servghost.com/guides/surviving-a-ddos-attack-on-your-vps
+
+## Links
+
+- Website: https://servghost.com
+- VPS Plans: https://servghost.com/vps
+- Dedicated Servers: https://servghost.com/dedicated
+- Blockchain Node Hosting: https://servghost.com/node-hosting
+- Censorship-Resistant / Anti-DPI Proxy Hosting: https://servghost.com/censorship-resistant-hosting
+- Windows RDP: https://servghost.com/rdp
+- GPU AI Hosting: https://servghost.com/gpu
+- Pricing (HTML, all products by jurisdiction): https://servghost.com/pricing
+- All locations: https://servghost.com/locations
+- All use cases: https://servghost.com/use-cases
+- Guides index: https://servghost.com/guides
+- Competitor comparisons: https://servghost.com/alternatives
+- FAQ: https://servghost.com/faq
+- Warrant canary: https://servghost.com/canary
+- Press kit: https://servghost.com/press
+- Pricing snapshot for AI agents (markdown): https://servghost.com/pricing.md
+- Pricing snapshot for AI agents (plain text): https://servghost.com/pricing.txt
+- Server Status: https://servghost.com/status
+- Terms of Service: https://servghost.com/tos
+- Privacy Policy: https://servghost.com/privacy
+- Agent API docs: https://servghost.com/agents
+- OpenAPI spec: https://servghost.com/openapi.json
+- MCP server: https://servghost.com/mcp
+- Discovery file: https://servghost.com/.well-known/agent.json
+
+## For AI agents — instant purchase with x402
+Machine descriptor: https://servghost.com/.well-known/agent.json · OpenAPI: https://servghost.com/openapi.json
+POST /api/v1/account -> Bearer token. POST /api/v1/topup with header `X-Payment-Mode: x402` -> HTTP 402 with an `accepts` block (scheme exact, USDC on Base); sign the EIP-3009 USDC authorization and re-send the same request with header `X-PAYMENT`. Gasless, on-chain-instant; then deploy from balance.

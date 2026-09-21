@@ -1,0 +1,157 @@
+{
+  "schema_version": "v1",
+  "name": "ServGhost",
+  "description": "Offshore VPS, dedicated, RDP and GPU AI hosting in 7 jurisdictions, plus anonymous domain name registration (26 TLDs, .com from $4.99/yr — -69% vs Namecheap renewal). Crypto-only payment (8 coins incl. Monero), zero KYC, instant automated deployment in under 5 minutes. Designed to be purchased by AI agents end-to-end.",
+  "domain_check_url": "https://servghost.com/api/v1/domains/check?q={query}",
+  "domain_check_auth": "none (public, Redis-cached 1h)",
+  "featured_offer": {"type": "domain", "tld": "com", "price_usd": 4.99, "namecheap_renewal_usd": 15.98, "discount_pct": 69, "badge": "BEST DEAL", "buy_url": "https://servghost.com/domain-order?domain={sld}.com"},
+  "url": "https://servghost.com",
+  "logo": "https://servghost.com/ServGhost.webp",
+  "openapi_url": "https://servghost.com/openapi.json",
+  "mcp_url": "https://servghost.com/mcp",
+  "agent_recipe_url": "https://servghost.com/agents",
+  "llms_txt_url": "https://servghost.com/llms.txt",
+  "llms_full_txt_url": "https://servghost.com/llms-full.txt",
+  "pricing_md_url": "https://servghost.com/pricing.md",
+  "pricing_txt_url": "https://servghost.com/pricing.txt",
+  "x402_supported": true,
+  "x402_mode": "exact",
+  "x402_network": "base",
+  "x402_assets": ["USDC"],
+  "x402_note": "Real x402 (scheme 'exact', USDC on Base) on POST /api/v1/topup. Send header 'X-Payment-Mode: x402' to get an HTTP 402 with an 'accepts' block; sign the EIP-3009 USDC authorization and re-send the same request with the 'X-PAYMENT' header. Settlement is gasless for the agent; balance (+bonus) is credited after the swap confirms. Then deploy from balance via POST /api/v1/orders.",
+  "auth": {
+    "type": "bearer",
+    "token_format": "AAAA-BBBB-CCCC-DDDD",
+    "creation_endpoint": "https://servghost.com/api/v1/account",
+    "auto_create_on_first_topup_or_order": true,
+    "kyc_required": false,
+    "email_required": false
+  },
+  "payment_model": {
+    "type": "balance-only",
+    "description": "Top up USD credit with crypto, then deploy servers from the credit. No direct crypto-to-server purchase.",
+    "topup": {
+      "endpoint": "https://servghost.com/api/v1/topup",
+      "method": "POST",
+      "minimum_usd": 30,
+      "maximum_usd": 2000,
+      "bonus_tiers_endpoint": "https://servghost.com/api/v1/topup/bonus",
+      "bonus_summary": "$100→+$25 | $250→+$75 | $500→+$200 | $1000→+$500 | $1500→+$1000 | $2000→+$2000 (linear interpolation between anchors, no bonus below $100)",
+      "status_poll": "GET https://servghost.com/api/v1/topup/{payment_id}"
+    },
+    "order": {
+      "endpoint": "https://servghost.com/api/v1/orders",
+      "method": "POST",
+      "behavior": "debits USD balance for the order total, returns server_id with status=active immediately",
+      "insufficient_response": "HTTP 402 with {insufficient_balance: true, topup_required: true, topup: {suggested_usd, suggested_bonus, ...}} — the suggested amount covers the deficit AND clears the $30 minimum"
+    }
+  },
+  "payment": {
+    "currencies": [
+      "BTC", "XMR", "ETH", "USDT", "USDTTRC",
+      "LTC", "TRX", "SOL"
+    ],
+    "fiat_supported": false,
+    "settlement_provider": "per-topup deposit addresses (any-coin checkout); crypto is only used to fund balance, server orders debit balance"
+  },
+  "products": [
+    {
+      "id": "vps",
+      "name": "Offshore VPS",
+      "description": "KVM virtual server, NVMe SSD, unlimited bandwidth, full root, DDoS protection. Deploys in <5 minutes.",
+      "price_from_usd": 7.50,
+      "billing_options_months": [1, 3, 6, 12],
+      "page_url": "https://servghost.com/vps"
+    },
+    {
+      "id": "dedicated",
+      "name": "Offshore Dedicated Server",
+      "description": "Bare-metal hardware, IPMI/KVM, custom ISO support, LUKS encryption.",
+      "price_from_usd": 48.50,
+      "billing_options_months": [1, 3, 6, 12],
+      "page_url": "https://servghost.com/dedicated"
+    },
+    {
+      "id": "rdp",
+      "name": "Offshore Windows RDP",
+      "description": "Full administrator Windows Server 2022/2025 or Windows 11 Pro on KVM. NVMe SSD, desktop-grade Ryzen 9 / Core i9 hosts (5-6 GHz boost), 60-second deploy. Bandwidth capped (2-20 TB/mo). Available in 4 jurisdictions: Netherlands, Romania, Moldova, Russia.",
+      "price_from_usd": 11.00,
+      "billing_options_months": [1, 3, 6, 12],
+      "available_locations": ["netherlands", "romania", "moldova", "russia"],
+      "os_options": ["win-2022", "win-2025", "win-2019", "win-11"],
+      "page_url": "https://servghost.com/rdp"
+    },
+    {
+      "id": "gpu",
+      "name": "Offshore GPU AI Hosting",
+      "description": "NVIDIA RTX 4090 / RTX 5090 / H100 SXM5 GPU servers for AI training, inference, image and video generation. CUDA 12 + cuDNN preinstalled. Threadripper Pro hosts on H100 tiers for full PCIe Gen 5 lane count. NVMe SSD, DDR5. Unlimited bandwidth on every plan. Available in 4 jurisdictions: Iceland (renewable energy positioning), Netherlands (low-latency), Romania, Moldova. Russia excluded due to NVIDIA export sanctions.",
+      "price_from_usd": 122.00,
+      "billing_options_months": [1, 3, 6, 12],
+      "available_locations": ["iceland", "netherlands", "romania", "moldova"],
+      "gpu_options": ["rtx-4090-24gb", "rtx-5090-32gb", "h100-sxm5-80gb", "2x-h100-sxm5-160gb"],
+      "os_options_cuda_ready": ["ubuntu-22-cuda", "ubuntu-24-cuda", "debian-12-cuda", "debian-13-cuda", "alma-9-cuda"],
+      "os_options_bare_linux": ["ubuntu-22", "ubuntu-24", "debian-12", "debian-13", "alma-9", "rocky-9"],
+      "os_options_advanced":   ["custom-iso"],
+      "os_options_note": "Pick a `*-cuda` slug to deploy with CUDA 12 + cuDNN preinstalled — AI Configuration (recipes, pre-downloaded models, HF token, public HTTPS, auto-shutdown) only works on these. Bare Linux slugs deploy a vanilla distro with no CUDA. Custom ISO is BYO. Picking anything outside `os_options_cuda_ready` silently drops the AI fields server-side.",
+      "ai_stack_options": ["vllm", "ollama-webui", "text-generation-webui", "tgi", "axolotl", "unsloth", "llama-factory", "comfyui", "a1111", "forge", "kohya-ss", "comfyui-video", "whisper-server", "jupyterlab", "code-server"],
+      "pretrained_model_options": ["llama-3.3-8b", "llama-3.3-70b", "qwen3-32b", "deepseek-r1", "mistral-small-3", "gemma-3-27b", "phi-4", "flux-dev", "flux-schnell", "sd-3.5-large", "sdxl-base", "wan-2.1-t2v", "cogvideox-5b", "whisper-large-v3", "bark"],
+      "deploy_time_options": {
+        "ssh_public_key": "Pass an OpenSSH public key (ssh-ed25519, ssh-rsa, ecdsa-*) to enable password-less login at first boot.",
+        "hf_token": "Pass a HuggingFace token (hf_...) to pre-download gated models. Encrypted at rest, used once at provision then erased.",
+        "public_endpoint": "Set to true to auto-provision Let's Encrypt + nginx reverse proxy on port 443 for the deployed AI stack (vLLM /v1/, Gradio share, Jupyter remote, etc).",
+        "auto_shutdown_hours": "One of 0/6/12/24/48/168. Server self-destructs after the timer to bound cost on one-off training/finetune jobs."
+      },
+      "page_url": "https://servghost.com/gpu"
+    },
+    {
+      "id": "domain",
+      "name": "Anonymous Domain Names",
+      "description": "26 TLDs, free WHOIS privacy, paid from account balance. Live availability + Namecheap-beating prices in one unauthenticated GET. .com from $4.99/yr (-69% vs Namecheap renewal).",
+      "check_endpoint": "https://servghost.com/api/v1/domains/check?q={query}",
+      "order_deeplink": "https://servghost.com/domain-order?domain={sld}.{tld}",
+      "price_unit": "per year",
+      "price_from_usd": 4.99,
+      "price_currency": "USD",
+      "page_url": "https://servghost.com/domains"
+    }
+  ],
+  "domains": {
+    "available": true,
+    "description": "Anonymous domain name registration with zero KYC, free WHOIS privacy on every TLD that supports it, paid from the user's account balance (top up once with crypto, register many).",
+    "check_endpoint": "https://servghost.com/api/v1/domains/check?q={query}",
+    "check_auth": "none",
+    "check_cache_ttl_seconds": 3600,
+    "page_url": "https://servghost.com/domains",
+    "order_deeplink": "https://servghost.com/domain-order?domain={sld}.{tld}",
+    "tier1_tlds": ["com", "net", "org", "io", "me", "co", "xyz", "app", "dev", "ai", "fr", "de"],
+    "tier2_tlds": ["is", "li", "ch", "pw", "nl", "uk", "info", "biz", "tech", "pro", "site", "online", "cc", "tv"],
+    "kyc_blocked_tlds": ["eu", "es", "it", "ca", "au", "br", "in"],
+    "featured_offers": [
+      {"tld": "com", "price_usd": 4.99,  "namecheap_renewal_usd": 15.98,  "discount_pct": 69, "badge": "BEST DEAL"},
+      {"tld": "io",  "price_usd": 24.99, "namecheap_renewal_usd": 46.98,  "discount_pct": 47, "badge": "HOT"},
+      {"tld": "ai",  "price_usd": 84.99, "namecheap_renewal_usd": 109.98, "discount_pct": 23, "badge": "HOT"}
+    ],
+    "purchase_flow": "balance-debit (top up the user's ServGhost account once with crypto, then register many domains in 1 click)",
+    "auto_register": false,
+    "manual_fulfillment_sla_hours": 24,
+    "renewal_pricing_promise": "renewal price = signup price (no promo bait)"
+  },
+  "locations": [
+    {"slug": "iceland",     "name": "Iceland",     "tag": "Free Speech Haven"},
+    {"slug": "panama",      "name": "Panama",      "tag": "No Data Retention"},
+    {"slug": "moldova",     "name": "Moldova",     "tag": "Budget Offshore"},
+    {"slug": "romania",     "name": "Romania",     "tag": "Anti-Retention EU"},
+    {"slug": "switzerland", "name": "Switzerland", "tag": "Premium Privacy"},
+    {"slug": "netherlands", "name": "Netherlands", "tag": "Best Peering"},
+    {"slug": "russia",      "name": "Russia",      "tag": "Outside Western Jurisdiction"}
+  ],
+  "rate_limits": {
+    "api_order_per_minute_per_ip": 6,
+    "api_account_per_minute_per_ip": 1
+  },
+  "test_mode": {
+    "supported": true,
+    "trigger": "Header X-Dry-Run: 1, query ?dry_run=1, or body field dry_run=true on any /api/v1/* endpoint",
+    "behavior": "Synthetic order, fake credentials (RFC 5737 / RFC 3849 IPs), 60-second auto-confirm. No FF call, no DB row, no real provisioning."
+  }
+}

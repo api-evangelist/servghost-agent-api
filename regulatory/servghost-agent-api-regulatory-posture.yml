@@ -1,0 +1,27 @@
+generated: '2026-09-21'
+method: searched
+source:
+  - https://servghost.com/canary
+  - https://servghost.com/locations
+signals:
+  transparency_report:
+    present: true
+    type: TransparencyReport
+    url: https://servghost.com/canary
+    evidence: "Warrant Canary — Monthly Signed Statement"
+    detail: >-
+      ServGhost publishes a monthly signed warrant canary. Probed live 2026-09-21 (HTTP 200); the page is
+      titled "Warrant Canary — Monthly Signed Statement" and carries schema.org Organization markup
+      (foundingDate 2025).
+    method: searched
+  data_residency:
+    present: true
+    type: DataResidency
+    url: https://servghost.com/locations
+    evidence: "7 offshore jurisdictions"
+    detail: >-
+      Server location (data residency) is a first-class, agent-selectable control: the API exposes
+      GET /api/v1/locations and the order flow takes a location argument across 7 jurisdictions (Iceland,
+      Panama, Moldova, Romania, Switzerland, Netherlands, Russia), each documented with its data-retention /
+      legal posture. Not a formal residency certification.
+    method: searched

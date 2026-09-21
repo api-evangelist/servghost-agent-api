@@ -1,0 +1,21 @@
+generated: '2026-09-21'
+method: searched
+source:
+  - https://servghost.com/status
+  - openapi/servghost-agent-api-openapi.json
+versioning:
+  scheme: uri-path
+  current: '2.0.0'
+  detail: >-
+    URI-path versioning under /api/v1/. The OpenAPI contract is at version 2.0.0. GET /api/v1/orders/{id} is
+    documented as "Legacy: poll a crypto-direct order (pre-v2.0 only)", reflecting the v2.0 move to a
+    balance-only payment model.
+deprecation:
+  policy: none
+  detail: >-
+    No formal deprecation policy, Sunset/Deprecation headers (RFC 8594), or dated deprecation schedule is
+    published. The pre-v2.0 crypto-direct order flow is described as legacy but no removal date is stated.
+status_page: https://servghost.com/status
+sla:
+  detail: No published SLA / uptime guarantee found. A warrant canary is published at https://servghost.com/canary.
+deprecated_operations: []

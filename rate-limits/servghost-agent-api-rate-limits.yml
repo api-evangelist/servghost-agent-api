@@ -1,0 +1,25 @@
+generated: '2026-09-21'
+method: probed
+source: https://servghost.com/.well-known/agent.json
+name: ServGhost Agent API Rate Limits
+note: >-
+  Rate limits are published in the machine-readable discovery file /.well-known/agent.json. They are
+  enforced per client IP. The OpenAPI contract returns HTTP 429 "Rate limited" on POST /api/v1/topup and
+  POST /api/v1/orders when a limit is exceeded; no RateLimit-* / Retry-After response headers are documented.
+  limit_text quotes the verbatim JSON fields from the discovery file.
+status_code_on_exhaustion: 429
+headers: []
+limit_count: 2
+limits:
+  - name: Order creation per IP
+    limit_text: '"api_order_per_minute_per_ip": 6'
+    limit: 6
+    window: minute
+    scope: per-ip
+    endpoint: POST /api/v1/orders
+  - name: Account creation per IP
+    limit_text: '"api_account_per_minute_per_ip": 1'
+    limit: 1
+    window: minute
+    scope: per-ip
+    endpoint: POST /api/v1/account

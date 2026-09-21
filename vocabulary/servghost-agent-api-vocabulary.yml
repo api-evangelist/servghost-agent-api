@@ -1,0 +1,21 @@
+generated: '2026-09-21'
+method: derived
+generator: derive-vocabulary.py
+source: openapi/servghost-agent-api-openapi.yml
+vocabulary:
+  name: ServGhost Agent API Domain Vocabulary
+  description: 'Terms declared by ServGhost Agent API''s own API contract: its resource groups, objects and enumerations, with the contract''s
+    definitions. Derived, not authored.'
+  version: '2026-09-21'
+  terms:
+  - term: Error
+    definition: 'Object declared by the contract with fields: ok, error, message.'
+    tags:
+    - Object
+    source: openapi/servghost-agent-api-openapi.yml#/components/schemas/Error
+  - term: InsufficientBalance
+    definition: Returned by POST /api/v1/orders when the account balance is below the order price. The `topup` block contains a suggested amount
+      that covers the deficit AND clears the $30 platform minimum, ready to pass to POST /api/v1/topup.
+    tags:
+    - Object
+    source: openapi/servghost-agent-api-openapi.yml#/components/schemas/InsufficientBalance

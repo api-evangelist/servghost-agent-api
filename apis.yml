@@ -1,14 +1,89 @@
 name: ServGhost Agent API
-description: >-
-  Agent-native offshore hosting provider offering Linux VPS, dedicated servers, Windows RDP, GPU AI compute, and
-  anonymous domain registration across 7 jurisdictions. No-KYC, no-logs, crypto-only with instant automated deployment
-  designed for end-to-end purchase by AI agents. Exposes a REST API (OpenAPI 3.1), a hosted MCP server, llms.txt, an
-  agent.json discovery file, and x402 USDC payment support.
+description: Agent-native offshore hosting provider offering Linux VPS, dedicated servers, Windows RDP, GPU AI compute,
+  and anonymous domain registration across 7 jurisdictions. No-KYC, no-logs, crypto-only with instant automated
+  deployment designed for end-to-end purchase by AI agents. Exposes a REST API (OpenAPI 3.1), a hosted MCP server,
+  llms.txt, an agent.json discovery file, and x402 USDC payment support.
 url: https://raw.githubusercontent.com/api-evangelist/servghost-agent-api/refs/heads/main/apis.yml
 created: '2026-09-21'
 modified: '2026-09-21'
 specificationVersion: '0.21'
 tags:
+- cloud infrastructure
+- VPS hosting
+- dedicated servers
+- GPU compute
+- AI compute
+- domain registration
+- privacy
+- anonymous hosting
+- offshore hosting
+- crypto payments
+- agent-native
+- MCP
+- x402
+maintainers:
+- FN: ServGhost Agent API
+  url: https://servghost.com
+common:
+- type: AgenticAccess
+  url: agentic-access/servghost-agent-api-agentic-access.yml
+- type: Newsroom
+  url: https://servghost.com/press
+- type: Documentation
+  url: https://servghost.com/guides
+- type: RateLimits
+  url: rate-limits/servghost-agent-api-rate-limits.yml
+- type: Plans
+  url: plans/servghost-agent-api-plans-pricing.yml
+- type: Spectral
+  url: rules/servghost-agent-api-rules.yml
+- type: JSONLD
+  url: json-ld/servghost-agent-api-context.jsonld
+- type: Vocabulary
+  url: vocabulary/servghost-agent-api-vocabulary.yml
+- type: DataModel
+  url: data-model/servghost-agent-api-data-model.yml
+- type: Conventions
+  url: conventions/servghost-agent-api-conventions.yml
+- type: Sandbox
+  url: sandbox/servghost-agent-api-sandbox.yml
+- type: Authentication
+  url: authentication/servghost-agent-api-authentication.yml
+- type: Deprecation
+  url: lifecycle/servghost-agent-api-lifecycle.yml
+- type: StatusPage
+  url: https://servghost.com/status
+- type: Lifecycle
+  url: lifecycle/servghost-agent-api-lifecycle.yml
+- type: ErrorCatalog
+  url: errors/servghost-agent-api-problem-types.yml
+- type: Conformance
+  url: conformance/servghost-agent-api-conformance.yml
+- type: LLMsTxt
+  url: llms/servghost-agent-api-llms.txt
+- type: ToolCrosswalk
+  url: mcp/servghost-agent-api-tool-crosswalk.yml
+- type: DomainSecurity
+  url: security/servghost-agent-api-domain-security.yml
+- type: Website
+  url: https://servghost.com
+- type: Pricing
+  url: https://servghost.com/pricing
+- type: TermsOfService
+  url: https://servghost.com/tos
+- type: PrivacyPolicy
+  url: https://servghost.com/privacy
+- type: Support
+  url: https://servghost.com/contact
+apis:
+- name: ServGhost Agent API
+  description: REST API for provisioning VPS, dedicated servers, Windows RDP, GPU AI hosting, and anonymous domains.
+    Bearer-token auth (auto-issued on first topup/order), balance funded via crypto-only top-ups, x402 USDC payment
+    support, and a dry_run test mode. Ships an OpenAPI 3.1 contract, a hosted MCP server with 13 tools, llms.txt,
+    and a /.well-known/agent.json discovery file.
+  humanURL: https://servghost.com/agents
+  baseURL: https://servghost.com
+  tags:
   - cloud infrastructure
   - VPS hosting
   - dedicated servers
@@ -22,43 +97,28 @@ tags:
   - agent-native
   - MCP
   - x402
-apis:
-  - name: ServGhost Agent API
-    description: >-
-      REST API for provisioning VPS, dedicated servers, Windows RDP, GPU AI hosting, and anonymous domains. Bearer-token
-      auth (auto-issued on first topup/order), balance funded via crypto-only top-ups, x402 USDC payment support, and a
-      dry_run test mode. Ships an OpenAPI 3.1 contract, a hosted MCP server with 13 tools, llms.txt, and a
-      /.well-known/agent.json discovery file.
-    humanURL: https://servghost.com/agents
-    baseURL: https://servghost.com
-    tags:
-      - cloud infrastructure
-      - VPS hosting
-      - dedicated servers
-      - GPU compute
-      - AI compute
-      - domain registration
-      - privacy
-      - anonymous hosting
-      - offshore hosting
-      - crypto payments
-      - agent-native
-      - MCP
-      - x402
-    properties:
-      - type: OpenAPI
-        url: https://servghost.com/openapi.json
-      - type: MCPServer
-        url: https://servghost.com/mcp
-      - type: LLMsTxt
-        url: https://servghost.com/llms.txt
-      - type: Documentation
-        url: https://servghost.com/agents
-maintainers:
-  - FN: ServGhost Agent API
-    url: https://servghost.com
-generated:
+  properties:
+  - type: OpenAPI
+    url: openapi/servghost-agent-api-openapi.yml
+  - type: OpenAPI
+    name: OpenAPI (provider-hosted)
+    url: https://servghost.com/openapi.json
+  - type: MCPServer
+    url: https://servghost.com/mcp
+  - type: LLMsTxt
+    url: https://servghost.com/llms.txt
+  - type: Documentation
+    url: https://servghost.com/agents
+  aid: servghost-agent-api:servghost-agent-api
+  image: https://servghost.com/ServGhost.webp
+x-generated:
   by: apis.io/add
   model: claude-opus-4-8
   confidence: 95
   at: '2026-09-21T13:45:14.800Z'
+image: https://servghost.com/ServGhost.webp
+x-enrichment:
+  date: '2026-09-21'
+  status: enriched
+  artifacts_added: 24
+  pass: local-v5

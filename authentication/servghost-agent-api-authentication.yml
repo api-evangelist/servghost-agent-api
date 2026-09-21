@@ -1,0 +1,22 @@
+generated: '2026-09-21'
+method: searched
+source: https://servghost.com/agents
+docs: https://servghost.com/agents
+summary: >-
+  Single scheme: HTTP Bearer token. Tokens are auto-issued on the first POST /api/v1/topup or /api/v1/orders
+  (or explicitly via POST /api/v1/account) with no KYC, no email and no signup. Token format is
+  AAAA-BBBB-CCCC-DDDD. Anonymous, unauthenticated access is allowed for discovery endpoints (catalog,
+  locations, quote, topup/bonus, domains/check). MCP mutating tools carry the same token as an account_token
+  argument rather than a connection-level credential.
+schemes:
+  - name: BearerAuth
+    type: http
+    scheme: bearer
+    bearerFormat: AAAA-BBBB-CCCC-DDDD
+    location: Authorization header
+    issuance: Auto-issued on first topup/order POST, or explicitly via POST /api/v1/account
+    kyc_required: false
+    email_required: false
+  - name: Anonymous
+    type: none
+    detail: Discovery/pricing endpoints (GET /api/v1/catalog, /locations, /topup/bonus, /domains/check and POST /api/v1/quote) require no auth.

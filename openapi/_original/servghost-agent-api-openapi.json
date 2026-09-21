@@ -1,0 +1,699 @@
+{
+ "openapi": "3.1.0",
+ "info": {
+  "title": "ServGhost Agent API",
+  "version": "2.0.0",
+  "description": "Public REST API for AI agents to discover, price, top up balance and deploy offshore VPS, dedicated, Windows RDP and GPU AI servers on servghost.com, plus anonymous domain name registration (26 TLDs, .com from $4.99/yr — -69% vs Namecheap renewal). **Payment model is BALANCE-ONLY:** agents top up USD credit with crypto via /api/v1/topup (min $30, max $2000 per top-up, with automatic bonus credit), then deploy servers from the credit via /api/v1/orders. GPU orders accept deploy-time AI configuration: pre-installed AI stacks (vLLM, ComfyUI, Ollama, Axolotl, Unsloth…), pre-downloaded HuggingFace models (Llama, FLUX, DeepSeek-R1…), HF token for gated models, SSH public key, public HTTPS endpoint with Let's Encrypt, and auto-shutdown timer. Crypto-only, no KYC, no email. Bearer auth (auto-issued on first /topup or /orders POST). Companion MCP server at https://servghost.com/mcp.",
+  "contact": {
+   "url": "https://servghost.com/agents"
+  },
+  "license": {
+   "name": "Proprietary"
+  }
+ },
+ "servers": [
+  {
+   "url": "https://servghost.com"
+  }
+ ],
+ "components": {
+  "securitySchemes": {
+   "BearerAuth": {
+    "type": "http",
+    "scheme": "bearer",
+    "bearerFormat": "AAAA-BBBB-CCCC-DDDD"
+   }
+  },
+  "schemas": {
+   "Error": {
+    "type": "object",
+    "required": [
+     "ok",
+     "error",
+     "message"
+    ],
+    "properties": {
+     "ok": {
+      "type": "boolean",
+      "const": false
+     },
+     "error": {
+      "type": "string",
+      "description": "machine-readable code"
+     },
+     "message": {
+      "type": "string"
+     }
+    }
+   },
+   "InsufficientBalance": {
+    "type": "object",
+    "description": "Returned by POST /api/v1/orders when the account balance is below the order price. The `topup` block contains a suggested amount that covers the deficit AND clears the $30 platform minimum, ready to pass to POST /api/v1/topup.",
+    "properties": {
+     "ok": {
+      "type": "boolean",
+      "const": false
+     },
+     "error": {
+      "type": "string",
+      "const": "insufficient_balance"
+     },
+     "message": {
+      "type": "string"
+     },
+     "insufficient_balance": {
+      "type": "boolean",
+      "const": true
+     },
+     "have_usd": {
+      "type": "number"
+     },
+     "need_usd": {
+      "type": "number"
+     },
+     "deficit_usd": {
+      "type": "number"
+     },
+     "topup_required": {
+      "type": "boolean",
+      "const": true
+     },
+     "topup": {
+      "type": "object",
+      "properties": {
+       "endpoint": {
+        "type": "string"
+       },
+       "method": {
+        "type": "string"
+       },
+       "minimum_usd": {
+        "type": "number",
+        "const": 30
+       },
+       "maximum_usd": {
+        "type": "number",
+        "const": 2000
+       },
+       "suggested_usd": {
+        "type": "number"
+       },
+       "suggested_bonus": {
+        "type": "number"
+       },
+       "bonus_doc": {
+        "type": "string"
+       }
+      }
+     },
+     "account_token": {
+      "type": "string",
+      "description": "Present only when the account was auto-created on this call. STORE IT."
+     }
+    }
+   }
+  }
+ },
+ "paths": {
+  "/api/v1/": {
+   "get": {
+    "summary": "API root — recipe, capabilities, payment model",
+    "responses": {
+     "200": {
+      "description": "OK"
+     }
+    }
+   }
+  },
+  "/api/v1/catalog": {
+   "get": {
+    "summary": "Full price/spec matrix (VPS + dedicated + RDP + GPU, all locations)",
+    "responses": {
+     "200": {
+      "description": "Catalog",
+      "content": {
+       "application/json": {
+        "example": {
+         "ok": true,
+         "vps": [],
+         "dedicated": [],
+         "rdp": [],
+         "gpu": [],
+         "billing_discounts": {
+          "1": 0,
+          "3": 25,
+          "6": 35,
+          "12": 50
+         },
+         "promotion": null
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/locations": {
+   "get": {
+    "summary": "7 jurisdictions with privacy/legal features",
+    "responses": {
+     "200": {
+      "description": "Locations"
+     }
+    }
+   }
+  },
+  "/api/v1/quote": {
+   "post": {
+    "summary": "Calculate final price (with discounts + extras)",
+    "description": "`type` is one of `vps`, `dedicated`, `rdp`, `gpu`. RDP plans are only available in `netherlands`, `romania`, `moldova`, `russia`. GPU plans are only available in `iceland`, `netherlands`, `romania`, `moldova` (Russia excluded due to NVIDIA export controls). `billing` is the number of months billed (1, 3, 6 or 12).",
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "example": {
+        "type": "rdp",
+        "plan": "NL-M",
+        "location": "netherlands",
+        "billing": 3,
+        "extra_ips": 0
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Quote"
+     }
+    }
+   }
+  },
+  "/api/v1/topup/bonus": {
+   "get": {
+    "summary": "Top-up bonus tier table (no auth)",
+    "description": "Returns the bonus credit applied on top-up confirmation. Anchors: $100→+$25, $250→+$75, $500→+$200, $1000→+$500, $1500→+$1000, $2000→+$2000. Linear interpolation between adjacent anchors (floor to cent precision). No bonus below $100.",
+    "responses": {
+     "200": {
+      "description": "Bonus tiers",
+      "content": {
+       "application/json": {
+        "example": {
+         "ok": true,
+         "minimum_usd": 30,
+         "maximum_usd": 2000,
+         "no_bonus_below_usd": 100,
+         "anchors": [
+          {
+           "top_up_usd": 100,
+           "bonus_usd": 25,
+           "credited_usd": 125,
+           "effective_pct": 25.0
+          },
+          {
+           "top_up_usd": 2000,
+           "bonus_usd": 2000,
+           "credited_usd": 4000,
+           "effective_pct": 100.0
+          }
+         ],
+         "interpolation": "Linear between adjacent anchors; floor to cent precision.",
+         "sample_amounts": [
+          {
+           "top_up_usd": 30,
+           "bonus_usd": 0,
+           "credited_usd": 30
+          },
+          {
+           "top_up_usd": 100,
+           "bonus_usd": 25,
+           "credited_usd": 125
+          },
+          {
+           "top_up_usd": 500,
+           "bonus_usd": 200,
+           "credited_usd": 700
+          }
+         ]
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/v1/topup": {
+   "post": {
+    "summary": "Top up USD balance with crypto (min $30, max $2000)",
+    "description": "Creates a crypto deposit invoice. On confirmation (push from the payment orchestrator), the user's USD balance is credited with `amount + bonus`. Bonus tiers in GET /api/v1/topup/bonus. Bearer optional — if absent, a new account is created and the token is returned in the response (STORE IT, it cannot be recovered).",
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "example": {
+        "amount": 200,
+        "crypto": "XMR"
+       }
+      }
+     }
+    },
+    "responses": {
+     "201": {
+      "description": "Top-up invoice created",
+      "content": {
+       "application/json": {
+        "example": {
+         "ok": true,
+         "payment_id": 12345,
+         "order_number": "428193",
+         "amount_usd": 200.0,
+         "crypto": "XMR",
+         "crypto_name": "Monero",
+         "amount_crypto": "1.2034",
+         "address": "47abc...",
+         "qr_data_uri": "data:image/png;base64,...",
+         "deposit_tag": "",
+         "network": "Monero",
+         "expires_in": 3600,
+         "bonus_usd": 50.0,
+         "credited_usd": 250.0,
+         "balance_before": 0.0,
+         "balance_after_credit": 250.0,
+         "poll_url": "https://servghost.com/api/v1/topup/12345",
+         "next_step": "Send 1.2034 XMR to address. Poll poll_url until status=confirmed (balance credit + bonus applied automatically).",
+         "account_token": "AAAA-BBBB-CCCC-DDDD"
+        }
+       }
+      }
+     },
+     "400": {
+      "description": "Amount below $30 or above $2000, or unsupported crypto",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Error"
+        }
+       }
+      }
+     },
+     "429": {
+      "description": "Rate limited"
+     },
+     "503": {
+      "description": "Crypto checkout temporarily unavailable (try another coin)"
+     },
+     "402": {
+      "description": "x402 Payment Required — returned when X-Payment-Mode: x402 is sent without a valid X-Payment header. Body contains the x402 'accepts' array (scheme 'exact', network 'base', USDC asset address, amount, payTo). Sign an EIP-3009 transferWithAuthorization for the quoted amount and retry the same request with the 'X-Payment' header.",
+      "content": {
+       "application/json": {
+        "example": {
+         "x402Version": 1,
+         "accepts": [
+          {
+           "scheme": "exact",
+           "network": "base",
+           "maxAmountRequired": "30000000",
+           "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+           "payTo": "<deposit address>",
+           "resource": "/api/v1/topup",
+           "description": "Balance top-up"
+          }
+         ]
+        }
+       }
+      }
+     }
+    },
+    "parameters": [
+     {
+      "name": "X-Payment-Mode",
+      "in": "header",
+      "required": false,
+      "schema": {
+       "type": "string",
+       "enum": [
+        "x402"
+       ]
+      },
+      "description": "Set to 'x402' to pay via the x402 protocol (scheme 'exact', USDC on Base, EIP-3009 transferWithAuthorization). The first request returns HTTP 402 with an 'accepts' block; retry with the signed 'X-Payment' header to settle and credit the balance."
+     }
+    ]
+   }
+  },
+  "/api/v1/topup/{id}": {
+   "get": {
+    "summary": "Poll top-up status",
+    "description": "Returns pending → confirmed (balance credited + bonus applied) or expired. Once status=confirmed, the bonus is already in the balance — call POST /api/v1/orders next.",
+    "security": [
+     {
+      "BearerAuth": []
+     }
+    ],
+    "parameters": [
+     {
+      "name": "id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "integer"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Top-up state"
+     }
+    }
+   }
+  },
+  "/api/v1/orders": {
+   "post": {
+    "summary": "Deploy a server from balance (BALANCE-ONLY)",
+    "description": "Debits the order total from the account's USD balance and creates the server. **NO crypto field** — pre-fund via POST /api/v1/topup first. If the balance is short, returns 402 `insufficient_balance` with a `topup_required` block (suggested amount covers deficit + clears $30 minimum). Server is `active` immediately on success. Bearer optional — if absent, a new account is auto-created (it will have $0 balance → 402 → topup → retry).\n\n`type`: `vps`, `dedicated`, `rdp`, or `gpu`. For `rdp`, `os` must be a Windows slug (`win-2022`, `win-2025`, `win-2019`, `win-11`); RDP locations: `netherlands`, `romania`, `moldova`, `russia`. For `gpu`, `os` must be a Linux + CUDA image (e.g. `ubuntu-22-cuda`); GPU locations: `iceland`, `netherlands`, `romania`, `moldova`.\n\n**GPU-only fields** (ignored for other types):\n- `ai_stacks` (string[]): pre-install AI software at deploy time. Slugs: `vllm`, `ollama-webui`, `text-generation-webui`, `tgi`, `axolotl`, `unsloth`, `llama-factory`, `comfyui`, `a1111`, `forge`, `kohya-ss`, `comfyui-video`, `whisper-server`, `jupyterlab` (always on), `code-server`.\n- `pretrained_models` (string[]): pre-download HuggingFace models. Slugs: `llama-3.3-8b`, `llama-3.3-70b`, `qwen3-32b`, `deepseek-r1`, `mistral-small-3`, `gemma-3-27b`, `phi-4`, `flux-dev`, `flux-schnell`, `sd-3.5-large`, `sdxl-base`, `wan-2.1-t2v`, `cogvideox-5b`, `whisper-large-v3`, `bark`.\n- `hf_token` (string): HuggingFace token, required to pre-download gated models (Llama, Mistral, Gemma, FLUX-dev, SD 3.5). AES-encrypted at rest, used once at provision.\n- `ssh_public_key` (string): SSH public key (`ssh-ed25519`, `ssh-rsa`, `ecdsa-*`). Optional — for password-less login.\n- `public_endpoint` (boolean): auto-provision Let's Encrypt + nginx reverse proxy on port 443.\n- `auto_shutdown_hours` (integer): one of 0 (never) / 6 / 12 / 24 / 48 / 168. Server self-destructs after the timer.",
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "example": {
+        "type": "gpu",
+        "plan": "IS-L",
+        "location": "iceland",
+        "os": "ubuntu-22-cuda",
+        "billing": 1,
+        "ai_stacks": [
+         "vllm",
+         "jupyterlab"
+        ],
+        "pretrained_models": [
+         "llama-3.3-70b",
+         "flux-dev"
+        ],
+        "hf_token": "hf_AbCdEf...",
+        "ssh_public_key": "ssh-ed25519 AAAA... user@host",
+        "public_endpoint": true,
+        "auto_shutdown_hours": 24
+       }
+      }
+     }
+    },
+    "responses": {
+     "201": {
+      "description": "Server deployed",
+      "content": {
+       "application/json": {
+        "example": {
+         "ok": true,
+         "server_id": 9876,
+         "status": "active",
+         "charged_usd": 74.22,
+         "new_balance": 175.78,
+         "billing_months": 1,
+         "service_months": 1,
+         "free_months": 0,
+         "promo": null,
+         "credentials_url": "https://servghost.com/api/v1/servers/9876",
+         "account_token": "AAAA-BBBB-CCCC-DDDD"
+        }
+       }
+      }
+     },
+     "402": {
+      "description": "Insufficient balance — top up first",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/InsufficientBalance"
+        },
+        "example": {
+         "ok": false,
+         "error": "insufficient_balance",
+         "message": "You have $0.00, this order costs $74.22. Top up at least $74 via POST /api/v1/topup, wait for the payment to confirm, then retry POST /api/v1/orders.",
+         "insufficient_balance": true,
+         "have_usd": 0.0,
+         "need_usd": 74.22,
+         "deficit_usd": 74.22,
+         "topup_required": true,
+         "topup": {
+          "endpoint": "https://servghost.com/api/v1/topup",
+          "method": "POST",
+          "minimum_usd": 30,
+          "maximum_usd": 2000,
+          "suggested_usd": 75,
+          "suggested_bonus": 0.0,
+          "bonus_doc": "https://servghost.com/api/v1/topup/bonus"
+         },
+         "account_token": "AAAA-BBBB-CCCC-DDDD"
+        }
+       }
+      }
+     },
+     "400": {
+      "description": "Bad input",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Error"
+        }
+       }
+      }
+     },
+     "429": {
+      "description": "Rate limited"
+     },
+     "500": {
+      "description": "Server INSERT failed (balance refunded)"
+     }
+    }
+   }
+  },
+  "/api/v1/orders/{id}": {
+   "get": {
+    "summary": "Legacy: poll a crypto-direct order (pre-v2.0 only)",
+    "description": "Only useful for orders created by the legacy crypto-direct API (pre-balance-only refactor). New balance-only orders do NOT generate payment rows — poll GET /api/v1/servers/{server_id} from the create response instead.",
+    "security": [
+     {
+      "BearerAuth": []
+     }
+    ],
+    "parameters": [
+     {
+      "name": "id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "integer"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Legacy order"
+     },
+     "404": {
+      "description": "Not found (likely a balance-only order — use /servers/{id})"
+     }
+    }
+   }
+  },
+  "/api/v1/servers/{id}": {
+   "get": {
+    "summary": "Get server credentials (active immediately after a successful POST /orders)",
+    "security": [
+     {
+      "BearerAuth": []
+     }
+    ],
+    "parameters": [
+     {
+      "name": "id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "integer"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Server"
+     }
+    }
+   }
+  },
+  "/api/v1/servers/{id}/action": {
+   "post": {
+    "summary": "Lifecycle action (reboot/shutdown/start/reinstall/console_link)",
+    "security": [
+     {
+      "BearerAuth": []
+     }
+    ],
+    "parameters": [
+     {
+      "name": "id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "integer"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "example": {
+        "action": "reboot"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Queued"
+     }
+    }
+   }
+  },
+  "/api/v1/account": {
+   "post": {
+    "summary": "Create a fresh account (returns Bearer token)",
+    "responses": {
+     "201": {
+      "description": "Created",
+      "content": {
+       "application/json": {
+        "example": {
+         "ok": true,
+         "account_token": "AAAA-BBBB-CCCC-DDDD",
+         "prefix": "AAAA"
+        }
+       }
+      }
+     }
+    }
+   },
+   "get": {
+    "summary": "Account info + balance + linked servers",
+    "security": [
+     {
+      "BearerAuth": []
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Account"
+     }
+    }
+   }
+  },
+  "/api/v1/domains/check": {
+   "get": {
+    "summary": "Live availability + Namecheap-beating prices for 26 TLDs (no auth, Redis-cached 1h)",
+    "description": "Check availability across our supported TLDs in one call. Returns per-TLD: availability, premium flag, our retail price, Namecheap renewal price, discount percentage, marketing badge. If the agent passes `q=name.fr`, the .fr result is surfaced FIRST. Featured offer: .com at $4.99/yr (-69% vs Namecheap, BEST DEAL badge). Other loss-leaders: .io $24.99 (-47% HOT), .ai $84.99 (-23% HOT). Purchase happens via balance-debit (same balance funded via /api/v1/topup).",
+    "parameters": [
+     {
+      "name": "q",
+      "in": "query",
+      "required": true,
+      "description": "SLD or full domain (e.g. `mybrand` or `mybrand.io`). Stripping protocol, www., trailing slash and TLD suffix is automatic.",
+      "schema": {
+       "type": "string",
+       "maxLength": 63,
+       "example": "mybrand"
+      }
+     },
+     {
+      "name": "tier",
+      "in": "query",
+      "required": false,
+      "description": "`1` (popular, default), `2` (privacy/secondary), or `all`.",
+      "schema": {
+       "type": "string",
+       "enum": [
+        "1",
+        "2",
+        "all"
+       ],
+       "default": "1"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "JSON with per-TLD availability + pricing",
+      "content": {
+       "application/json": {
+        "example": {
+         "ok": true,
+         "query": "mybrand",
+         "tier": "1",
+         "results": [
+          {
+           "domain": "mybrand.com",
+           "tld": "com",
+           "available": true,
+           "premium": false,
+           "price_usd": 4.99,
+           "market_usd": 15.98,
+           "discount_pct": 69,
+           "badge": "BEST DEAL",
+           "featured": true,
+           "tagline": "The classic, universally recognized",
+           "error": null
+          },
+          {
+           "domain": "mybrand.io",
+           "tld": "io",
+           "available": true,
+           "premium": false,
+           "price_usd": 24.99,
+           "market_usd": 46.98,
+           "discount_pct": 47,
+           "badge": "HOT",
+           "featured": false,
+           "tagline": "Tech / startup default",
+           "error": null
+          },
+          {
+           "domain": "mybrand.ai",
+           "tld": "ai",
+           "available": true,
+           "premium": false,
+           "price_usd": 84.99,
+           "market_usd": 109.98,
+           "discount_pct": 23,
+           "badge": "HOT",
+           "featured": false,
+           "tagline": "AI / ML default",
+           "error": null
+          }
+         ],
+         "cache": "miss",
+         "service_error": null,
+         "pricelist_loaded": 671
+        }
+       }
+      }
+     },
+     "400": {
+      "description": "Invalid query (must be 1–63 chars, a-z 0-9 hyphens, no leading/trailing/double hyphen)",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/Error"
+        }
+       }
+      }
+     }
+    }
+   }
+  }
+ },
+ "x-mcp-server": "https://servghost.com/mcp",
+ "x-discovery": "https://servghost.com/.well-known/agent.json",
+ "x-payment-model": "balance-only: POST /api/v1/topup (min $30, max $2000, with bonus tiers) → wait for confirmation → POST /api/v1/orders (balance-debit, server active immediately)",
+ "x-dry-run": {
+  "trigger": "Header X-Dry-Run: 1 OR ?dry_run=1 OR body.dry_run=true",
+  "behavior": "Synthetic response, no balance impact, no provisioning. Returned shape mirrors the real one with `dry_run:true` + a `note` field."
+ }
+}

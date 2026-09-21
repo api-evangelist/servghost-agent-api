@@ -1,0 +1,50 @@
+generated: '2026-09-21'
+method: probed
+source: https://servghost.com/mcp
+status: live
+server:
+  name: servghost
+  version: 1.0.0
+  protocolVersion: '2025-03-26'
+  instructions: >-
+    ServGhost MCP server. Buy offshore VPS, dedicated servers, Windows RDP or NVIDIA GPU AI servers
+    (RTX 4090, RTX 5090, H100 SXM5) across 7 jurisdictions. Paid in 8 cryptocurrencies including Monero.
+    No KYC. Call agent_help() for the canonical purchase recipe.
+deployment:
+  mode: remote
+  endpoint: https://servghost.com/mcp
+  auth: none
+  verified: probed
+auth:
+  type: none
+  note: >-
+    initialize and tools/list succeed anonymously; mutating tools take an account_token argument
+    (auto-issued bearer token, format AAAA-BBBB-CCCC-DDDD) rather than an OAuth/connection-level credential.
+tools:
+  - name: list_plans
+    description: List all VPS, dedicated, RDP or GPU plans with prices per location.
+  - name: list_locations
+    description: List the 7 offshore jurisdictions ServGhost operates in, with privacy/legal features.
+  - name: quote
+    description: Calculate the final price (USD) for a plan + location + billing period.
+  - name: create_order
+    description: Deploy a server from your USD balance (balance-only; topup first).
+  - name: topup_create
+    description: Top up your USD balance with crypto. Minimum $30, maximum $2000 per top-up.
+  - name: topup_bonus
+    description: Return the bonus credit tiers applied to top-ups.
+  - name: account_balance
+    description: Return the current USD balance for an account.
+  - name: payment_status
+    description: Poll the status of a top-up (or legacy crypto-direct order).
+  - name: server_credentials
+    description: Fetch IP, root password and console URL for a server once it is active.
+  - name: server_action
+    description: Send a lifecycle command to a server (reboot, shutdown, start, reinstall).
+  - name: agent_help
+    description: Return the canonical 4-call recipe for buying a server, with examples.
+note: >-
+  Hosted remote MCP server probed live 2026-09-21: POST tools/list returned 11 tools with inputSchema;
+  initialize returned protocolVersion 2025-03-26. Single-domain deployment (no subdomain). The agent.json
+  discovery file and llms.txt both advertise the same 11 tools (the marketing copy's "13 tools" is not
+  borne out by tools/list).

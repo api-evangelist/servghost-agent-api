@@ -1,0 +1,96 @@
+generated: '2026-09-21'
+method: searched
+source: https://servghost.com/pricing.md
+name: ServGhost Pricing
+audience: business-product
+pricing_basis: tiered-subscription
+published: true
+delivery:
+  delivery: managed
+plan_count: 4
+currency: USD
+billing_periods:
+  - 1 month
+  - 3 months
+  - 6 months
+  - 12 months
+note: >-
+  Prices are per server per month in USD, crypto-only (8 coins incl. Monero), no KYC, no fiat. Each product
+  is a size matrix (S/M/L/XL/XXL/PRO) priced per jurisdiction; the price_text below quotes the entry-tier
+  price verbatim from https://servghost.com/pricing.md and each plan spans a range across the 7 locations.
+  Payment is BALANCE-ONLY: agents top up USD credit with crypto via POST /api/v1/topup (min $30, max $2000,
+  with automatic bonus credit) then deploy servers debiting the balance. Multi-month cycles get a small
+  discount at order time. A fifth product line, anonymous domain registration across 26 TLDs (.com from
+  $4.99/yr via GET /api/v1/domains/check), is priced in /.well-known/agent.json and llms.txt rather than on
+  this server pricing page, so it is omitted here to keep every price_text verbatim to the single source.
+plans:
+  - name: Offshore VPS
+    description: >-
+      KVM virtual servers, NVMe SSD, unlimited bandwidth, DDoS L3/L4, full root + VNC console, deployed in
+      under 5 minutes. Sizes S through PRO in all 7 jurisdictions. Entry tier (Moldova/Russia S).
+    price_text: $7.50/mo
+    price: 7.50
+    price_note: Entry-tier (S) price; ranges to $58.50/mo for the PRO tier in Iceland/Switzerland.
+    features:
+      - Full root + VNC console
+      - NVMe SSD storage
+      - Unlimited bandwidth
+      - DDoS L3/L4 protection
+      - Sub-5-minute automated deploy
+    limits:
+      - vCPU 2 to 16 depending on tier
+      - RAM 4 GB to 64 GB depending on tier
+      - Storage 60 GB to 1 TB NVMe depending on tier
+      - Uplink 1 to 2 Gbps depending on tier
+  - name: Offshore Dedicated Servers
+    description: >-
+      Bare-metal dedicated servers, 8C/16T up to 64C/128T dual-EPYC, ECC RAM, multi-NVMe, up to 10 Gbps.
+      Entry tier (Moldova/Russia 1).
+    price_text: $48.50/mo
+    price: 48.50
+    price_note: Entry-tier (1) price; ranges to $293.50/mo for the 64C/128T tier in Switzerland.
+    features:
+      - Dedicated bare-metal hardware
+      - ECC RAM
+      - Multiple NVMe drives
+      - Up to 10 Gbps uplink
+    limits:
+      - CPU 8C/16T to 64C/128T depending on tier
+      - RAM 64 GB to 256 GB ECC depending on tier
+      - Storage 2x1TB to 4x4TB NVMe depending on tier
+  - name: Offshore Windows RDP
+    description: >-
+      Full Windows administrator on KVM (Server 2022/2025, Win 11 Pro, Server 2019), desktop-grade Ryzen 9 /
+      Core i9 hosts, 60-second deploy. Available in Netherlands, Romania, Moldova, Russia only.
+    price_text: $11.00/mo
+    price: 11.00
+    price_note: Entry-tier (S) price; ranges to $36.50/mo for the XL tier. Extra bandwidth at $2.10/TB.
+    features:
+      - Full Windows administrator access
+      - Windows Server 2022/2025, Win 11 Pro, Server 2019
+      - Desktop-grade Ryzen 9 / Core i9 hosts
+      - 60-second deploy
+    limits:
+      - vCPU 2 to 8 depending on tier
+      - RAM 4 GB to 32 GB depending on tier
+      - Bandwidth capped 2 to 20 TB/mo (extra TB at $2.10)
+      - Available in 4 jurisdictions (NL/RO/MD/RU)
+  - name: Offshore GPU AI Hosting
+    description: >-
+      NVIDIA GPU servers (RTX 4090, RTX 5090, H100 SXM5, up to 2x H100) with unlimited bandwidth and
+      deploy-time AI stack/model pre-install. Available in Iceland, Netherlands, Romania, Moldova (Russia
+      excluded due to NVIDIA export controls). Entry tier (Moldova RTX 4090).
+    price_text: $122.00/mo
+    price: 122.00
+    price_note: Entry-tier (single RTX 4090) price; ranges to $1714.50/mo for the 2x H100 SXM5 tier in Iceland.
+    features:
+      - NVIDIA RTX 4090 / RTX 5090 / H100 SXM5
+      - Unlimited bandwidth
+      - Deploy-time AI stacks (vLLM, ComfyUI, Ollama, Axolotl, Unsloth)
+      - Pre-downloaded HuggingFace models, HF token support
+      - Public HTTPS endpoint with Let's Encrypt, auto-shutdown timer
+    limits:
+      - GPU 1x RTX 4090 to 2x H100 SXM5 depending on tier
+      - VRAM 24 GB to 160 GB depending on tier
+      - RAM 64 GB to 384 GB depending on tier
+      - Available in 4 jurisdictions (IS/NL/RO/MD)

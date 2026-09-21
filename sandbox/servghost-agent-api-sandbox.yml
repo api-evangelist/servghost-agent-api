@@ -1,0 +1,22 @@
+generated: '2026-09-21'
+method: searched
+source: https://servghost.com/.well-known/agent.json
+description: >-
+  ServGhost ships a dry-run test mode on every /api/v1/* endpoint. When triggered it returns a synthetic
+  order with fake credentials (RFC 5737 / RFC 3849 reserved IPs) and 60-second auto-confirm, with no
+  fulfillment call, no database row and no real provisioning. This lets an agent rehearse the full
+  discover -> quote -> topup -> order -> credentials flow without spending crypto or deploying a server.
+docs: https://servghost.com/agents
+modes:
+  - name: live
+    description: Real orders debit USD balance and provision real servers.
+  - name: dry-run
+    description: Synthetic order, fake RFC 5737/RFC 3849 credentials, 60-second auto-confirm, no provisioning.
+triggers:
+  - Header X-Dry-Run: 1
+  - Query parameter ?dry_run=1
+  - Body field dry_run=true
+test_values:
+  - Fake server IPs from RFC 5737 (documentation IPv4) and RFC 3849 (documentation IPv6) ranges
+gaps:
+  - No published static test crypto addresses or test cards (crypto-only, no card rails).
