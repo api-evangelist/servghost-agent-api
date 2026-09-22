@@ -8,6 +8,20 @@ created: '2026-09-21'
 modified: '2026-09-21'
 specificationVersion: '0.21'
 tags:
+- Cloud Infrastructure
+- VPS hosting
+- Dedicated Servers
+- GPU Compute
+- AI Compute
+- Domain Registration
+- Privacy
+- anonymous hosting
+- offshore hosting
+- Crypto Payments
+- agent-native
+- MCP
+- x402
+tags_raw:
 - cloud infrastructure
 - VPS hosting
 - dedicated servers
@@ -84,6 +98,20 @@ apis:
   humanURL: https://servghost.com/agents
   baseURL: https://servghost.com
   tags:
+  - Cloud Infrastructure
+  - VPS hosting
+  - Dedicated Servers
+  - GPU Compute
+  - AI Compute
+  - Domain Registration
+  - Privacy
+  - anonymous hosting
+  - offshore hosting
+  - Crypto Payments
+  - agent-native
+  - MCP
+  - x402
+  tags_raw:
   - cloud infrastructure
   - VPS hosting
   - dedicated servers
