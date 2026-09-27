@@ -1,0 +1,172 @@
+openapi: 3.2.0
+info:
+  title: ServGhost Agent Topup API
+  version: 2.0.0
+  description: Public REST API for AI agents to discover, price, top up balance and deploy offshore VPS, dedicated, Windows RDP and GPU AI servers on servghost.com, plus anonymous domain name registration (26 TLDs, .com from $4.99/yr — -69% vs Namecheap renewal).
+  contact:
+    url: https://servghost.com/agents
+  license:
+    name: Proprietary
+servers:
+- url: https://servghost.com
+tags:
+- name: Top Up
+paths:
+  /api/v1/topup/bonus:
+    get:
+      summary: Top-up bonus tier table (no auth)
+      description: 'Returns the bonus credit applied on top-up confirmation. Anchors: $100→+$25, $250→+$75, $500→+$200, $1000→+$500, $1500→+$1000, $2000→+$2000. Linear interpolation between adjacent anchors (floor to cent precision). No bonus below $100.'
+      responses:
+        '200':
+          description: Bonus tiers
+          content:
+            application/json:
+              example:
+                ok: true
+                minimum_usd: 30
+                maximum_usd: 2000
+                no_bonus_below_usd: 100
+                anchors:
+                - top_up_usd: 100
+                  bonus_usd: 25
+                  credited_usd: 125
+                  effective_pct: 25.0
+                - top_up_usd: 2000
+                  bonus_usd: 2000
+                  credited_usd: 4000
+                  effective_pct: 100.0
+                interpolation: Linear between adjacent anchors; floor to cent precision.
+                sample_amounts:
+                - top_up_usd: 30
+                  bonus_usd: 0
+                  credited_usd: 30
+                - top_up_usd: 100
+                  bonus_usd: 25
+                  credited_usd: 125
+                - top_up_usd: 500
+                  bonus_usd: 200
+                  credited_usd: 700
+      tags:
+      - Top Up
+      operationId: getApiV1TopupBonus
+      x-operation-id-source: derived
+  /api/v1/topup:
+    post:
+      summary: Top up USD balance with crypto (min $30, max $2000)
+      description: Creates a crypto deposit invoice. On confirmation (push from the payment orchestrator), the user's USD balance is credited with `amount + bonus`. Bonus tiers in GET /api/v1/topup/bonus. Bearer optional — if absent, a new account is created and the token is returned in the response (STORE IT, it cannot be recovered).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              amount: 200
+              crypto: XMR
+      responses:
+        '201':
+          description: Top-up invoice created
+          content:
+            application/json:
+              example:
+                ok: true
+                payment_id: 12345
+                order_number: '428193'
+                amount_usd: 200.0
+                crypto: XMR
+                crypto_name: Monero
+                amount_crypto: '1.2034'
+                address: 47abc...
+                qr_data_uri: data:image/png;base64,...
+                deposit_tag: ''
+                network: Monero
+                expires_in: 3600
+                bonus_usd: 50.0
+                credited_usd: 250.0
+                balance_before: 0.0
+                balance_after_credit: 250.0
+                poll_url: https://servghost.com/api/v1/topup/12345
+                next_step: Send 1.2034 XMR to address. Poll poll_url until status=confirmed (balance credit + bonus applied automatically).
+                account_token: AAAA-BBBB-CCCC-DDDD
+        '400':
+          description: Amount below $30 or above $2000, or unsupported crypto
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Rate limited
+        '503':
+          description: Crypto checkout temporarily unavailable (try another coin)
+        '402':
+          description: 'x402 Payment Required — returned when X-Payment-Mode: x402 is sent without a valid X-Payment header. Body contains the x402 ''accepts'' array (scheme ''exact'', network ''base'', USDC asset address, amount, payTo). Sign an EIP-3009 transferWithAuthorization for the quoted amount and retry the same request with the ''X-Payment'' header.'
+          content:
+            application/json:
+              example:
+                x402Version: 1
+                accepts:
+                - scheme: exact
+                  network: base
+                  maxAmountRequired: '30000000'
+                  asset: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913'
+                  payTo: <deposit address>
+                  resource: /api/v1/topup
+                  description: Balance top-up
+      parameters:
+      - name: X-Payment-Mode
+        in: header
+        required: false
+        schema:
+          type: string
+          enum:
+          - x402
+        description: Set to 'x402' to pay via the x402 protocol (scheme 'exact', USDC on Base, EIP-3009 transferWithAuthorization). The first request returns HTTP 402 with an 'accepts' block; retry with the signed 'X-Payment' header to settle and credit the balance.
+      tags:
+      - Top Up
+      operationId: postApiV1Topup
+      x-operation-id-source: derived
+  /api/v1/topup/{id}:
+    get:
+      summary: Poll top-up status
+      description: Returns pending → confirmed (balance credited + bonus applied) or expired. Once status=confirmed, the bonus is already in the balance — call POST /api/v1/orders next.
+      security:
+      - BearerAuth: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Top-up state
+      tags:
+      - Top Up
+      operationId: getApiV1TopupById
+      x-operation-id-source: derived
+components:
+  schemas:
+    Error:
+      type: object
+      required:
+      - ok
+      - error
+      - message
+      properties:
+        ok:
+          type: boolean
+          const: false
+        error:
+          type: string
+          description: machine-readable code
+        message:
+          type: string
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: AAAA-BBBB-CCCC-DDDD
+x-mcp-server: https://servghost.com/mcp
+x-discovery: https://servghost.com/.well-known/agent.json
+x-payment-model: 'balance-only: POST /api/v1/topup (min $30, max $2000, with bonus tiers) → wait for confirmation → POST /api/v1/orders (balance-debit, server active immediately)'
+x-dry-run:
+  trigger: 'Header X-Dry-Run: 1 OR ?dry_run=1 OR body.dry_run=true'
+  behavior: Synthetic response, no balance impact, no provisioning. Returned shape mirrors the real one with `dry_run:true` + a `note` field.

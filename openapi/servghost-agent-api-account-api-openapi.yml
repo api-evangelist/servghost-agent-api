@@ -1,0 +1,53 @@
+openapi: 3.2.0
+info:
+  title: ServGhost Agent Account API
+  version: 2.0.0
+  description: Public REST API for AI agents to discover, price, top up balance and deploy offshore VPS, dedicated, Windows RDP and GPU AI servers on servghost.com, plus anonymous domain name registration (26 TLDs, .com from $4.99/yr — -69% vs Namecheap renewal).
+  contact:
+    url: https://servghost.com/agents
+  license:
+    name: Proprietary
+servers:
+- url: https://servghost.com
+tags:
+- name: Account
+paths:
+  /api/v1/account:
+    post:
+      summary: Create a fresh account (returns Bearer token)
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              example:
+                ok: true
+                account_token: AAAA-BBBB-CCCC-DDDD
+                prefix: AAAA
+      tags:
+      - Account
+      operationId: postApiV1Account
+      x-operation-id-source: derived
+    get:
+      summary: Account info + balance + linked servers
+      security:
+      - BearerAuth: []
+      responses:
+        '200':
+          description: Account
+      tags:
+      - Account
+      operationId: getApiV1Account
+      x-operation-id-source: derived
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: AAAA-BBBB-CCCC-DDDD
+x-mcp-server: https://servghost.com/mcp
+x-discovery: https://servghost.com/.well-known/agent.json
+x-payment-model: 'balance-only: POST /api/v1/topup (min $30, max $2000, with bonus tiers) → wait for confirmation → POST /api/v1/orders (balance-debit, server active immediately)'
+x-dry-run:
+  trigger: 'Header X-Dry-Run: 1 OR ?dry_run=1 OR body.dry_run=true'
+  behavior: Synthetic response, no balance impact, no provisioning. Returned shape mirrors the real one with `dry_run:true` + a `note` field.

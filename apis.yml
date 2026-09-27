@@ -18,7 +18,7 @@ tags:
 - anonymous hosting
 - offshore hosting
 - Crypto Payments
-- agent-native
+- Agent-Native
 - MCP
 - x402
 tags_raw:
@@ -39,6 +39,8 @@ maintainers:
 - FN: ServGhost Agent API
   url: https://servghost.com
 common:
+- type: MCPServer
+  url: https://servghost.com/mcp
 - type: AgenticAccess
   url: agentic-access/servghost-agent-api-agentic-access.yml
 - type: Newsroom
@@ -90,55 +92,124 @@ common:
 - type: Support
   url: https://servghost.com/contact
 apis:
-- name: ServGhost Agent API
-  description: REST API for provisioning VPS, dedicated servers, Windows RDP, GPU AI hosting, and anonymous domains.
-    Bearer-token auth (auto-issued on first topup/order), balance funded via crypto-only top-ups, x402 USDC payment
-    support, and a dry_run test mode. Ships an OpenAPI 3.1 contract, a hosted MCP server with 13 tools, llms.txt,
-    and a /.well-known/agent.json discovery file.
+- aid: servghost-agent-api:servghost-agent-api-account-api
+  name: ServGhost Agent API Account API
+  description: The Account API from ServGhost Agent API — 1 operation(s) for account.
   humanURL: https://servghost.com/agents
-  baseURL: https://servghost.com
   tags:
-  - Cloud Infrastructure
-  - VPS hosting
-  - Dedicated Servers
-  - GPU Compute
-  - AI Compute
-  - Domain Registration
-  - Privacy
-  - anonymous hosting
-  - offshore hosting
-  - Crypto Payments
-  - agent-native
-  - MCP
-  - x402
-  tags_raw:
-  - cloud infrastructure
-  - VPS hosting
-  - dedicated servers
-  - GPU compute
-  - AI compute
-  - domain registration
-  - privacy
-  - anonymous hosting
-  - offshore hosting
-  - crypto payments
-  - agent-native
-  - MCP
-  - x402
+  - Account
   properties:
   - type: OpenAPI
-    url: openapi/servghost-agent-api-openapi.yml
-  - type: OpenAPI
-    name: OpenAPI (provider-hosted)
-    url: https://servghost.com/openapi.json
-  - type: MCPServer
-    url: https://servghost.com/mcp
+    url: openapi/servghost-agent-api-account-api-openapi.yml
   - type: LLMsTxt
     url: https://servghost.com/llms.txt
   - type: Documentation
     url: https://servghost.com/agents
-  aid: servghost-agent-api:servghost-agent-api
-  image: https://servghost.com/ServGhost.webp
+- aid: servghost-agent-api:servghost-agent-api-catalog-api
+  name: ServGhost Agent API Catalog API
+  description: The Catalog API from ServGhost Agent API — 1 operation(s) for catalog.
+  humanURL: https://servghost.com/agents
+  tags:
+  - Catalog
+  properties:
+  - type: OpenAPI
+    url: openapi/servghost-agent-api-catalog-api-openapi.yml
+  - type: LLMsTxt
+    url: https://servghost.com/llms.txt
+  - type: Documentation
+    url: https://servghost.com/agents
+- aid: servghost-agent-api:servghost-agent-api-domains-api
+  name: ServGhost Agent API Domains API
+  description: The Domains API from ServGhost Agent API — 1 operation(s) for domains.
+  humanURL: https://servghost.com/agents
+  tags:
+  - Domains
+  properties:
+  - type: OpenAPI
+    url: openapi/servghost-agent-api-domains-api-openapi.yml
+  - type: LLMsTxt
+    url: https://servghost.com/llms.txt
+  - type: Documentation
+    url: https://servghost.com/agents
+- aid: servghost-agent-api:servghost-agent-api-locations-api
+  name: ServGhost Agent API Locations API
+  description: The Locations API from ServGhost Agent API — 1 operation(s) for locations.
+  humanURL: https://servghost.com/agents
+  tags:
+  - Locations
+  properties:
+  - type: OpenAPI
+    url: openapi/servghost-agent-api-locations-api-openapi.yml
+  - type: LLMsTxt
+    url: https://servghost.com/llms.txt
+  - type: Documentation
+    url: https://servghost.com/agents
+- aid: servghost-agent-api:servghost-agent-api-orders-api
+  name: ServGhost Agent API Orders API
+  description: The Orders API from ServGhost Agent API — 2 operation(s) for orders.
+  humanURL: https://servghost.com/agents
+  tags:
+  - Orders
+  properties:
+  - type: OpenAPI
+    url: openapi/servghost-agent-api-orders-api-openapi.yml
+  - type: LLMsTxt
+    url: https://servghost.com/llms.txt
+  - type: Documentation
+    url: https://servghost.com/agents
+- aid: servghost-agent-api:servghost-agent-api-quote-api
+  name: ServGhost Agent API Quote API
+  description: The Quote API from ServGhost Agent API — 1 operation(s) for quote.
+  humanURL: https://servghost.com/agents
+  tags:
+  - Quote
+  properties:
+  - type: OpenAPI
+    url: openapi/servghost-agent-api-quote-api-openapi.yml
+  - type: LLMsTxt
+    url: https://servghost.com/llms.txt
+  - type: Documentation
+    url: https://servghost.com/agents
+- aid: servghost-agent-api:servghost-agent-api-servers-api
+  name: ServGhost Agent API Servers API
+  description: The Servers API from ServGhost Agent API — 2 operation(s) for servers.
+  humanURL: https://servghost.com/agents
+  tags:
+  - Servers
+  properties:
+  - type: OpenAPI
+    url: openapi/servghost-agent-api-servers-api-openapi.yml
+  - type: LLMsTxt
+    url: https://servghost.com/llms.txt
+  - type: Documentation
+    url: https://servghost.com/agents
+- aid: servghost-agent-api:servghost-agent-api-servghost-agent-api-api
+  name: ServGhost Agent API ServGhost Agent API
+  description: >-
+    The ServGhost Agent API API from ServGhost Agent API — 1 operation(s) for servghost agent api.
+  humanURL: https://servghost.com/agents
+  tags:
+  - ServGhost Agent API
+  properties:
+  - type: OpenAPI
+    url: openapi/servghost-agent-api-servghost-agent-api-api-openapi.yml
+  - type: LLMsTxt
+    url: https://servghost.com/llms.txt
+  - type: Documentation
+    url: https://servghost.com/agents
+- aid: servghost-agent-api:servghost-agent-api-top-up-api
+  name: ServGhost Agent API Top Up API
+  description: The Top Up API from ServGhost Agent API — 3 operation(s) for top up.
+  humanURL: https://servghost.com/agents
+  tags:
+  - Top Up
+  properties:
+  - type: OpenAPI
+    url: openapi/servghost-agent-api-top-up-api-openapi.yml
+  - type: LLMsTxt
+    url: https://servghost.com/llms.txt
+  - type: Documentation
+    url: https://servghost.com/agents
 x-generated:
   by: apis.io/add
   model: claude-opus-4-8

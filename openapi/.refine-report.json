@@ -1,0 +1,54 @@
+{
+  "provider": "servghost-agent-api",
+  "sources": [
+    "_original/servghost-agent-api-openapi.json"
+  ],
+  "outputs": [
+    "servghost-agent-api-account-api-openapi.yml",
+    "servghost-agent-api-catalog-api-openapi.yml",
+    "servghost-agent-api-domains-api-openapi.yml",
+    "servghost-agent-api-locations-api-openapi.yml",
+    "servghost-agent-api-orders-api-openapi.yml",
+    "servghost-agent-api-quote-api-openapi.yml",
+    "servghost-agent-api-servghost-agent-api-api-openapi.yml",
+    "servghost-agent-api-servers-api-openapi.yml",
+    "servghost-agent-api-topup-api-openapi.yml"
+  ],
+  "archived": [
+    "deleted 1 superseded output(s) from the previous generation"
+  ],
+  "errors": [],
+  "warnings": [],
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "servghost-agent-api-openapi.json: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "servghost-agent-api-openapi.json: tagged paths GET /api/v1/ -> ServGhost Agent API",
+    "servghost-agent-api-openapi.json: tagged paths GET /api/v1/catalog -> Catalog",
+    "servghost-agent-api-openapi.json: tagged paths GET /api/v1/locations -> Locations",
+    "servghost-agent-api-openapi.json: tagged paths POST /api/v1/quote -> Quote",
+    "servghost-agent-api-openapi.json: tagged paths GET /api/v1/topup/bonus -> Topup",
+    "servghost-agent-api-openapi.json: tagged paths POST /api/v1/topup -> Topup",
+    "servghost-agent-api-openapi.json: tagged paths GET /api/v1/topup/{id} -> Topup",
+    "servghost-agent-api-openapi.json: tagged paths POST /api/v1/orders -> Orders",
+    "servghost-agent-api-openapi.json: tagged paths GET /api/v1/orders/{id} -> Orders",
+    "servghost-agent-api-openapi.json: tagged paths GET /api/v1/servers/{id} -> Servers",
+    "servghost-agent-api-openapi.json: tagged paths POST /api/v1/servers/{id}/action -> Servers",
+    "servghost-agent-api-openapi.json: tagged paths POST /api/v1/account -> Account",
+    "servghost-agent-api-openapi.json: tagged paths GET /api/v1/account -> Account",
+    "servghost-agent-api-openapi.json: tagged paths GET /api/v1/domains/check -> Domains",
+    "servghost-agent-api-openapi.json: declared missing tag: Account",
+    "servghost-agent-api-openapi.json: declared missing tag: Catalog",
+    "servghost-agent-api-openapi.json: declared missing tag: Domains",
+    "servghost-agent-api-openapi.json: declared missing tag: Locations",
+    "servghost-agent-api-openapi.json: declared missing tag: Orders",
+    "servghost-agent-api-openapi.json: declared missing tag: Quote",
+    "servghost-agent-api-openapi.json: declared missing tag: ServGhost Agent API",
+    "servghost-agent-api-openapi.json: declared missing tag: Servers",
+    "servghost-agent-api-openapi.json: declared missing tag: Topup",
+    "superseded outputs removed: servghost-agent-api-openapi.yml",
+    "apis.yml register: written (+9 apis, 9 total)"
+  ],
+  "skipped": [
+    "servghost-agent-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
+}

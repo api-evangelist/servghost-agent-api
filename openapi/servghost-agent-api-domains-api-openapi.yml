@@ -1,0 +1,122 @@
+openapi: 3.2.0
+info:
+  title: ServGhost Agent Domains API
+  version: 2.0.0
+  description: Public REST API for AI agents to discover, price, top up balance and deploy offshore VPS, dedicated, Windows RDP and GPU AI servers on servghost.com, plus anonymous domain name registration (26 TLDs, .com from $4.99/yr — -69% vs Namecheap renewal).
+  contact:
+    url: https://servghost.com/agents
+  license:
+    name: Proprietary
+servers:
+- url: https://servghost.com
+tags:
+- name: Domains
+paths:
+  /api/v1/domains/check:
+    get:
+      summary: Live availability + Namecheap-beating prices for 26 TLDs (no auth, Redis-cached…
+      description: 'Check availability across our supported TLDs in one call. Returns per-TLD: availability, premium flag, our retail price, Namecheap renewal price, discount percentage, marketing badge. If the agent passes `q=name.fr`, the .fr result is surfaced FIRST. Featured offer: .com at $4.99/yr (-69% vs Namecheap, BEST DEAL badge). Other loss-leaders: .io $24.99 (-47% HOT), .ai $84.99 (-23% HOT). Purchase happens via balance-debit (same balance funded via /api/v1/topup).'
+      parameters:
+      - name: q
+        in: query
+        required: true
+        description: SLD or full domain (e.g. `mybrand` or `mybrand.io`). Stripping protocol, www., trailing slash and TLD suffix is automatic.
+        schema:
+          type: string
+          maxLength: 63
+          example: mybrand
+      - name: tier
+        in: query
+        required: false
+        description: '`1` (popular, default), `2` (privacy/secondary), or `all`.'
+        schema:
+          type: string
+          enum:
+          - '1'
+          - '2'
+          - all
+          default: '1'
+      responses:
+        '200':
+          description: JSON with per-TLD availability + pricing
+          content:
+            application/json:
+              example:
+                ok: true
+                query: mybrand
+                tier: '1'
+                results:
+                - domain: mybrand.com
+                  tld: com
+                  available: true
+                  premium: false
+                  price_usd: 4.99
+                  market_usd: 15.98
+                  discount_pct: 69
+                  badge: BEST DEAL
+                  featured: true
+                  tagline: The classic, universally recognized
+                  error: null
+                - domain: mybrand.io
+                  tld: io
+                  available: true
+                  premium: false
+                  price_usd: 24.99
+                  market_usd: 46.98
+                  discount_pct: 47
+                  badge: HOT
+                  featured: false
+                  tagline: Tech / startup default
+                  error: null
+                - domain: mybrand.ai
+                  tld: ai
+                  available: true
+                  premium: false
+                  price_usd: 84.99
+                  market_usd: 109.98
+                  discount_pct: 23
+                  badge: HOT
+                  featured: false
+                  tagline: AI / ML default
+                  error: null
+                cache: miss
+                service_error: null
+                pricelist_loaded: 671
+        '400':
+          description: Invalid query (must be 1–63 chars, a-z 0-9 hyphens, no leading/trailing/double hyphen)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      tags:
+      - Domains
+      operationId: getApiV1DomainsCheck
+      x-operation-id-source: derived
+components:
+  schemas:
+    Error:
+      type: object
+      required:
+      - ok
+      - error
+      - message
+      properties:
+        ok:
+          type: boolean
+          const: false
+        error:
+          type: string
+          description: machine-readable code
+        message:
+          type: string
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: AAAA-BBBB-CCCC-DDDD
+x-mcp-server: https://servghost.com/mcp
+x-discovery: https://servghost.com/.well-known/agent.json
+x-payment-model: 'balance-only: POST /api/v1/topup (min $30, max $2000, with bonus tiers) → wait for confirmation → POST /api/v1/orders (balance-debit, server active immediately)'
+x-dry-run:
+  trigger: 'Header X-Dry-Run: 1 OR ?dry_run=1 OR body.dry_run=true'
+  behavior: Synthetic response, no balance impact, no provisioning. Returned shape mirrors the real one with `dry_run:true` + a `note` field.
