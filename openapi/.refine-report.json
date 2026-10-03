@@ -45,10 +45,18 @@
     "servghost-agent-api-openapi.json: declared missing tag: ServGhost Agent API",
     "servghost-agent-api-openapi.json: declared missing tag: Servers",
     "servghost-agent-api-openapi.json: declared missing tag: Topup",
-    "superseded outputs removed: servghost-agent-api-openapi.yml",
-    "apis.yml register: written (+9 apis, 9 total)"
+    "superseded outputs removed: servghost-agent-api-top-up-api-openapi.yml",
+    "apis.yml register: written (+1 apis, 9 total)"
   ],
   "skipped": [
-    "servghost-agent-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+    "servghost-agent-api-account-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "servghost-agent-api-catalog-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "servghost-agent-api-domains-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "servghost-agent-api-locations-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "servghost-agent-api-orders-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "servghost-agent-api-quote-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "servghost-agent-api-servers-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "servghost-agent-api-servghost-agent-api-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "servghost-agent-api-top-up-api-openapi.yml: previously refined output, superseded by openapi/_original/"
   ]
 }
