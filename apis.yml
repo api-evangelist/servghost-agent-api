@@ -39,6 +39,9 @@ maintainers:
 - FN: ServGhost Agent API
   url: https://servghost.com
 common:
+- type: CapabilityMap
+  url: capabilities/servghost-agent-api-capability-edges.yml
+  name: ServGhost Agent API Business Capability Map
 - type: MCPServer
   url: https://servghost.com/mcp
 - type: AgenticAccess
@@ -136,6 +139,8 @@ apis:
   description: The Locations API from ServGhost Agent API — 1 operation(s) for locations.
   humanURL: https://servghost.com/agents
   tags:
+  - Location
+  tags_raw:
   - Locations
   properties:
   - type: OpenAPI
@@ -149,6 +154,8 @@ apis:
   description: The Orders API from ServGhost Agent API — 2 operation(s) for orders.
   humanURL: https://servghost.com/agents
   tags:
+  - Order
+  tags_raw:
   - Orders
   properties:
   - type: OpenAPI
@@ -162,6 +169,8 @@ apis:
   description: The Quote API from ServGhost Agent API — 1 operation(s) for quote.
   humanURL: https://servghost.com/agents
   tags:
+  - Quotes
+  tags_raw:
   - Quote
   properties:
   - type: OpenAPI
